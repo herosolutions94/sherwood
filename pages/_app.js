@@ -10,7 +10,7 @@ import { doObjToFormData } from '@/helpers/helpers';
 
 export default function App({ Component, pageProps , siteSettings }) {
 
-
+console.log("jg[ps[" , siteSettings);
   const renderWithLayout =
     Component.getLayout ||
     function (page) {

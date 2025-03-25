@@ -366,8 +366,7 @@ export function cmsFileUrl(src, folder = "images",stock=false) {
       return '/images/no-image.svg';
     }
     
-  }
-  else {
+  } else {
     return `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}storage/${folder}/${src}`;
   }
 }

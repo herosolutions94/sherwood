@@ -12,22 +12,11 @@ p {
 
 #banner {
   @include bg;
-  background-image: url(../public/images/banner.png);
   height: 700px;
   position: relative;
   display: flex;
   align-items: end;
-  &::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #000000;
-    opacity: 60%;
-  }
-
+ 
   .content {
     h1 {
       color: $white;

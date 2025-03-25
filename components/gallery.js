@@ -8,14 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import lightGallery from "lightgallery";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
-
-const images = [
-  "/images/g1.png",
-  "/images/g2.png",
-  "/images/g3.png",
-  "/images/g4.jpg",
-  "/images/g5.jpg",
-];
+import { cmsFileUrl } from "@/helpers/helpers";
 
 const settings = {
   dots: false,
@@ -28,7 +21,7 @@ const settings = {
   arrows: true,
 };
 
-const Gallery = () => {
+const Gallery = ({ gallery }) => {
   const galleryRef = useRef(null);
 
   useEffect(() => {
@@ -36,19 +29,28 @@ const Gallery = () => {
       lightGallery(galleryRef.current, {
         plugins: [lgThumbnail, lgZoom],
         speed: 500,
-        selector: ".gallery-item", // Ye ensure karega ke sirf correct images open ho
+        selector: ".gallery-item",
       });
     }
   }, []);
 
+  if (!gallery || gallery.length === 0) {
+    return <p className="text-center text-gray-500">No images available.</p>;
+  }
+
   return (
     <div ref={galleryRef}>
       <Slider {...settings}>
-        {images.map((src, index) => (
-          <a href={src} key={index} data-src={src} className="gallery-item">
+        {gallery.map((image, index) => (
+          <a
+            href={cmsFileUrl(image.image, 'gallery')} // Dynamic image URL
+            key={index}
+            data-src={cmsFileUrl(image.image, 'gallery')}
+            className="gallery-item"
+          >
             <img
-              src={src}
-              alt={`Gallery image ${index + 1}`}
+              src={cmsFileUrl(image.image, 'gallery')}
+              alt={image.title || `Gallery image ${index + 1}`}
               className="w-full h-60 object-cover rounded-lg shadow-md"
             />
           </a>
