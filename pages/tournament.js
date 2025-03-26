@@ -14,7 +14,7 @@ export default function Tournament() {
         <section id="golf">
           <div className="contain">
             <div className="content_center">
-              <h2>Let’s Make It A Golf Day</h2>
+              <h2>Upcoming Tournaments</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
                 tempor turpis quis libero imperdiet, vel semper mauris eleifend.
@@ -37,11 +37,10 @@ export default function Tournament() {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ut elit tellus, luctus nec ullamcorper mattis
                       </p>
-                      <div className="btn_blk">
-                        <Link href="/" className="site_btn md">
-                          Get Ticket
-                        </Link>
-                      </div>
+                      <span>To participate contact us at</span>
+                      <Link href="/" className="">
+                        info@sherwoodgolf.com
+                      </Link>
                     </div>
                     <div className="blc_inn">
                       <ul>
@@ -69,11 +68,10 @@ export default function Tournament() {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ut elit tellus, luctus nec ullamcorper mattis
                       </p>
-                      <div className="btn_blk">
-                        <Link href="/" className="site_btn md">
-                          Get Ticket
-                        </Link>
-                      </div>
+                      <span>To participate contact us at</span>
+                      <Link href="/" className="">
+                        info@sherwoodgolf.com
+                      </Link>
                     </div>
                     <div className="blc_inn">
                       <ul>
@@ -101,11 +99,10 @@ export default function Tournament() {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ut elit tellus, luctus nec ullamcorper mattis
                       </p>
-                      <div className="btn_blk">
-                        <Link href="/" className="site_btn md">
-                          Get Ticket
-                        </Link>
-                      </div>
+                      <span>To participate contact us at</span>
+                      <Link href="/" className="">
+                        info@sherwoodgolf.com
+                      </Link>
                     </div>
                     <div className="blc_inn">
                       <ul>
@@ -130,7 +127,7 @@ export default function Tournament() {
           </div>
         </section>
 
-        <section id="boutique" className=" golfclub">
+        {/* <section id="boutique" className=" golfclub">
           <div className="contain">
             <div className="flex">
               <div className="col1">
@@ -158,7 +155,7 @@ export default function Tournament() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="whychoose">
           <div className="contain">
@@ -167,6 +164,9 @@ export default function Tournament() {
             </div>
             <div className="flex">
               <div className="coll">
+                <div className="icon">
+                  <img src="images/wc1.png" />
+                </div>
                 <h4>Championship-level course</h4>
                 <p>
                   Sit amet consectetur adipiscing elit eiusmod tempor incididunt
@@ -174,6 +174,9 @@ export default function Tournament() {
                 </p>
               </div>
               <div className="coll">
+                <div className="icon">
+                  <img src="images/wc2.png" />
+                </div>
                 <h4>Professional event coordination</h4>
                 <p>
                   Sit amet consectetur adipiscing elit eiusmod tempor incididunt
@@ -181,6 +184,9 @@ export default function Tournament() {
                 </p>
               </div>
               <div className="coll">
+                <div className="icon">
+                  <img src="images/wc3.png" />
+                </div>
                 <h4>Exclusive hospitality & dining options</h4>
                 <p>
                   Sit amet consectetur adipiscing elit eiusmod tempor incididunt
@@ -206,7 +212,7 @@ export default function Tournament() {
                 </div>
               </div>
               <div className="col2">
-                <div className="outer">
+                {/* <div className="outer">
                   <h3>Reserve Your Spot</h3>
                   <form>
                     <div className="row">
@@ -323,6 +329,22 @@ export default function Tournament() {
                       </div>
                     </div>
                   </form>
+                </div> */}
+                <h2>Let us plan your next tournament for you</h2>
+                <p>
+                  Hosting a golf tournament has never been easier! At Sherwood,
+                  we take care of every detail, from organizing tee times and
+                  scorekeeping to providing catering and on-course amenities.
+                  Whether it's a corporate event, charity fundraiser, or a
+                  friendly competition, our expert team ensures a seamless and
+                  memorable experience for all participants. Let us handle the
+                  logistics while you focus on enjoying the game and
+                  strengthening connections.
+                </p>
+                <div className="btn_blk">
+                  <Link href="/" className="site_btn ">
+                  Contact Us
+                  </Link>
                 </div>
               </div>
             </div>
