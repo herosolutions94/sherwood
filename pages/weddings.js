@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Galleria from "@/components/galleria";
 
 export default function Weddings() {
   return (
@@ -62,7 +63,8 @@ export default function Weddings() {
                 <div className="inner">
                   <h4>Premium Wedding Package</h4>
                   <p>
-                  A refined wedding experience with enhanced services and luxury elements to elevate your big day.
+                    A refined wedding experience with enhanced services and
+                    luxury elements to elevate your big day.
                   </p>
                 </div>
               </div>
@@ -70,15 +72,22 @@ export default function Weddings() {
                 <div className="inner">
                   <h4>Custom Wedding Package</h4>
                   <p>
-                  A fully customizable package designed to match your unique wedding vision with exclusive services tailored to your needs.
+                    A fully customizable package designed to match your unique
+                    wedding vision with exclusive services tailored to your
+                    needs.
                   </p>
                 </div>
               </div>
             </div>
+            <div className="btn_blk">
+              <Link href="/" className="site_btn ">
+                Inquire Now
+              </Link>
+            </div>
           </div>
         </section>
 
-        <section id="proshop" className="catering">
+        {/* <section id="proshop" className="catering">
           <div className="contain">
             <div className="flex">
               <div className="col1">
@@ -137,7 +146,19 @@ export default function Weddings() {
               </div>
             </div>
           </div>
+        </section> */}
+        <section id="galleria">
+          <div className="contain">
+          <Galleria />
+          </div>
+          <div className="btn_blk">
+              <Link href="/" className="site_btn ">
+                Inquire Now
+              </Link>
+            </div>
         </section>
+
+
       </main>
     </>
   );
