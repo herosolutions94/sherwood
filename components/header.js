@@ -39,10 +39,10 @@ export default function Header(siteSettings) {
                   <Link href="/about">About Us</Link>
                 </li>
                 <li>
-                  <Link href="/">Proshop & Boutique</Link>
+                  <Link href="/proshop">Proshop & Boutique</Link>
                 </li>
                 <li>
-                  <Link href="/">Partnerships</Link>
+                  <Link href="/partnerships">Partnerships</Link>
                 </li>
               </ul>
             </li>

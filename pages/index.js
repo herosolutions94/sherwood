@@ -167,8 +167,7 @@ export default function Home( {result} ) {
 
                 
                 {Array.from({ length: 3 }, (_, i) => {
-  const imageUrl = cmsFileUrl(content?.[`image${i + 16}`]);
-  const heading = content?.[`sec6_heading_event${i + 2}`];
+
 
   return (
     <div className="block" key={i}>
@@ -178,9 +177,9 @@ export default function Home( {result} ) {
             <>
               <div className="first">
                 <div className="img">
-                  <img src={imageUrl} alt={`Event ${i + 1}`} />
+                  <img src={cmsFileUrl(content?.[`image${i + 16}`])} alt={`Event ${i + 1}`} />
                 </div>
-                <h4>{heading}</h4>
+                <h4>{content?.[`sec6_heading_event${i + 2}`]}</h4>
               </div>
               <span>0{i + 1}</span>
             </>
@@ -189,9 +188,9 @@ export default function Home( {result} ) {
               <span>0{i + 1}</span>
               <div className="first">
                 <div className="img">
-                  <img src={imageUrl} alt={`Event ${i + 1}`} />
+                  <img src={cmsFileUrl(content?.[`image${i + 16}`])} alt={`Event ${i + 1}`} />
                 </div>
-                <h4>{heading}</h4>
+                <h4>{content?.[`sec6_heading_event${i + 2}`]}</h4>
               </div>
             </>
           )}

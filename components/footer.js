@@ -7,17 +7,17 @@ export default function Footer( siteSettings ) {
       {
         id: 1,
         text: "About us",
-        link: "/",
+        link: "/about",
       },
       {
         id: 2,
         text: "ProShop & boutique",
-        link: "/about",
+        link: "/proshop",
       },
       {
         id: 3,
         text: "Partnerships",
-        link: "/",
+        link: "/partnerships",
       }
     ],
     list_03: [
@@ -29,12 +29,12 @@ export default function Footer( siteSettings ) {
       {
         id: 3,
         text: "Green fee rates",
-        link: "/",
+        link: "/green-fee-rates",
       },
       {
         id: 4,
         text: "Scorecard",
-        link: "/",
+        link: "/scorecard",
       }
     ],
     list_04: [
