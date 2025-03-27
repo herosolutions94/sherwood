@@ -328,7 +328,7 @@ export default function Tournament({result}) {
                       </div>
                     </div>
                   </form>
-                </div> */}
+                </div> 
                 <h2>Let us plan your next tournament for you</h2>
                 <p>
                   Hosting a golf tournament has never been easier! At Sherwood,

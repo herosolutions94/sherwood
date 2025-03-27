@@ -24,7 +24,7 @@ export default function Footer( siteSettings ) {
       {
         id: 1,
         text: "Course overview and details",
-        link: "/",
+        link: "/course",
       },
       {
         id: 3,
@@ -41,7 +41,7 @@ export default function Footer( siteSettings ) {
       {
         id: 1,
         text: "Accommodations overview",
-        link: "/",
+        link: "/accomodation",
       },
       {
         id: 3,
@@ -146,10 +146,10 @@ export default function Footer( siteSettings ) {
               {siteSettings.siteSettings.site_copyright}              </p>
               <ul className="footer_nav">
               <li><Link href="/">Home</Link></li>
-              <li><Link href="/">Memberships</Link></li>
+              <li><Link href="/memberships">Memberships</Link></li>
               <li><Link href="/">Events</Link></li>
-              <li><Link href="/">Reviews</Link></li>
-              <li><Link href="/">About</Link></li>
+              <li><Link href="/reviews">Reviews</Link></li>
+              <li><Link href="/about">About</Link></li>
               </ul>
             </div>
           </div>

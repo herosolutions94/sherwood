@@ -1,26 +1,46 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
 
-export default function Request() {
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("booking-requests", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Request({result}) {
+  const { content, page_title, site_settings   } = result;
+
   return (
     <>
-      <main>
-        <section id="smallbanner">
-          <div className="contain">
-            <h1>Booking Requests</h1>
-          </div>
-        </section>
+         <MetaGenerator
+           page_title={page_title + " - " + site_settings?.site_name}
+           site_settings={site_settings}
+           meta_info={content}
+         />
+   
+         <main>
+           <section
+             id="smallbanner"
+             style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+           >
+             <div className="contain">
+               <h1>{content?.overview_heading}</h1>
+             </div>
+           </section>
 
         <section id="request-form">
           <div className="contain">
             <div className="content_center">
-              <h2>Booking Request Form</h2>
-              <p>
-                Experience luxury and comfort with our beautifully designed
-                chalets, offering a perfect retreat for golf enthusiasts and
-                nature lovers alike. Nestled amidst scenic landscapes, our
-                accommodations provide a relaxing escape with modern amenities.
-              </p>
+              <h2>{content?.sec1_heading}</h2>
+              <Text string={content?.section2_text} />
             </div>
             <div className="outer">
               <form className="booking-form">
@@ -344,10 +364,7 @@ export default function Request() {
                 </div>
 
                 <div className=" form-blk  col-xs-12">
-                <p>
-                I give my consent to receive electronic communications from Sherwood Golf & Country Club regarding upcoming communities, current communities, news, events, promotions and all other related electronic communications. I also understand that I can unsubscribe from receiving electronic communications from Sherwood Golf & Country Club at any time. For more information on how to unsubscribe, our privacy practices, and how we are committed to protecting and respecting your privacy, please review our Privacy Policy.
-                By clicking submit below, you consent to allow Sherwood Golf & Country Club to store and process the personal information submitted above to provide you the content requested.
-                </p>
+                 <Text string={content?.sec2_heading} />
                 </div>
                 <button type="submit" className="site_btn">
                   Submit Inquiry
