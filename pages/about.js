@@ -134,6 +134,16 @@ export default function About() {
             </div>
           </div>
         </section>
+        <section id="teach">
+          <div className="contain">
+            <div className="content_center">
+              <h2>We provide top-tier instructors to teach you golf</h2>
+            </div>
+            <div className="image">
+              <img src="images/map2.png" />
+            </div>
+          </div>
+        </section>
         <section id="story">
           <div className="contain">
             <div className="flex">
