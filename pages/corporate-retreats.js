@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Gallery from "@/components/gallery";
+
 
 export default function Corporate() {
   return (
@@ -7,14 +9,14 @@ export default function Corporate() {
       <main>
         <section id="smallbanner">
           <div className="contain">
-            <h1>Corporate Events</h1>
+            <h1>Corporate Retreats & Meetings</h1>
           </div>
         </section>
 
-        <section id="categories" className="corporate">
+        <section id="packages">
           <div className="contain">
             <div className="content_center">
-              <h2>Mark Your Calendar Upcoming Golf Events</h2>
+              <h2>Corporate Packages</h2>
               <p>
                 Sherwood delight ourselves on the high quality of championship
                 grulf and marvellous service that we offer our valued visitors.
@@ -23,56 +25,59 @@ export default function Corporate() {
               </p>
             </div>
             <div className="flex">
-              <div className="coll">
+              <div className="col">
                 <div className="inner">
                   <div className="image">
-                    <img src="images/corp1.png" />
+                    <img src="images/pk1.png" />
                   </div>
-                  <div className="text">
-                    <h4>Executive Retreats</h4>
-                    <p>
-                      Exclusive golf & conference experiences for corporate
-                      executives.
-                    </p>
-                    <Link href="/" className="arrow-btn">
-                      View Details
-                      <img src="/images/tick.svg" />
+                  <h3>Corporate Passes</h3>
+                  <p>
+                    Gain access to premium golf facilities with our exclusive
+                    corporate passes. Perfect for businesses looking to offer
+                    employees or clients a first-class golfing experience with
+                    added privileges and benefits.
+                  </p>
+                  <div className="btn_blk">
+                    <Link href="/" className="site_btn ">
+                      Choose Your Package
                     </Link>
                   </div>
                 </div>
               </div>
-              <div className="coll">
+              <div className="col">
                 <div className="inner">
                   <div className="image">
-                    <img src="images/corp2.png" />
+                    <img src="images/pk2.png" />
                   </div>
-                  <div className="text">
-                    <h4>Team Building Events</h4>
-                    <p>
-                      Boost teamwork with customized golf activities and
-                      workshops.
-                    </p>
-                    <Link href="/" className="arrow-btn">
-                      View Details
-                      <img src="/images/tick.svg" />
+                  <h3>Corporate Stay & Play</h3>
+                  <p>
+                    Combine business with leisure in our luxurious chalets while
+                    enjoying unlimited golf access. Ideal for corporate
+                    retreats, team-building events, or executive getaways in a
+                    tranquil and inspiring environment.
+                  </p>
+                  <div className="btn_blk">
+                    <Link href="/" className="site_btn color">
+                      Choose Your Package
                     </Link>
                   </div>
                 </div>
               </div>
-              <div className="coll">
+              <div className="col">
                 <div className="inner">
                   <div className="image">
-                    <img src="images/corp3.png" />
+                    <img src="images/pk3.png" />
                   </div>
-                  <div className="text">
-                    <h4>Client Appreciation Days</h4>
-                    <p>
-                      Impress your clients with an unforgettable day on the
-                      greens.
-                    </p>
-                    <Link href="/" className="arrow-btn">
-                      View Details
-                      <img src="/images/tick.svg" />
+                  <h3>Corporate Golf Tournament</h3>
+                  <p>
+                    Host an unforgettable corporate golf tournament with our
+                    fully managed event services. From course reservations to
+                    catering and prizes, we ensure a seamless and prestigious
+                    experience for your business and guests.
+                  </p>
+                  <div className="btn_blk">
+                    <Link href="/" className="site_btn color">
+                      Choose Your Package
                     </Link>
                   </div>
                 </div>
@@ -81,7 +86,7 @@ export default function Corporate() {
           </div>
         </section>
 
-        <section id="tournament">
+        {/* <section id="tournament">
           <div className="contain">
             <div className="flex-heading">
               <h2>Our Annual Golf Tournament</h2>
@@ -284,7 +289,132 @@ export default function Corporate() {
               </div>
             </div>
           </div>
+        </section> */}
+        <section id="sher_offer">
+          <div className="contain">
+            <div className="content_center">
+              <h2>What Sherwood has to Offer</h2>
+              <p>
+                Sherwood is more than just a destination—it’s an unparalleled
+                experience that blends luxury, nature, and recreation. Whether
+                you're here for a relaxing getaway, an unforgettable round of
+                golf, or a refined dining experience, Sherwood has something for
+                everyone.
+              </p>
+            </div>
+            <div className="col">
+              <div className="inner">
+                <div className="icon">
+                  <div className="image">
+                    <img src="/images/of1.png" alt="Club House" />
+                  </div>
+                  <h4>Club House</h4>
+                </div>
+                <div className="text">
+                  <ul>
+                    <li>A welcoming hub of relaxation and socialization</li>
+                    <li>
+                      Fine dining and casual options with exceptional service
+                    </li>
+                    <li>Lounge areas to unwind after a round of golf</li>
+                    <li>
+                      Exclusive member benefits and access to private events
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="col">
+              <div className="inner">
+                <div className="icon">
+                  <div className="image">
+                    <img src="/images/of2.png" alt="Meeting Rooms" />
+                  </div>
+                  <h4>Meeting Rooms</h4>
+                </div>
+                <div className="text">
+                  <ul>
+                    <li>
+                      State-of-the-art event spaces for business meetings,
+                      conferences, and retreats
+                    </li>
+                    <li>
+                      Fully equipped with modern technology and comfortable
+                      seating
+                    </li>
+                    <li>
+                      Customizable setups for corporate events, workshops, and
+                      private gatherings
+                    </li>
+                    <li>
+                      Professional event planning and catering services
+                      available
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="col">
+              <div className="inner">
+                <div className="icon">
+                  <div className="image">
+                    <img src="/images/of3.png" alt="Chalets" />
+                  </div>
+                  <h4>Chalets</h4>
+                </div>
+                <div className="text">
+                  <ul>
+                    <li>
+                      Luxurious and cozy accommodations with modern amenities
+                    </li>
+                    <li>Stunning views of the surrounding landscapes</li>
+                    <li>
+                      Perfect for weekend getaways, family vacations, or
+                      romantic retreats
+                    </li>
+                    <li>Access to dining, golf, and outdoor activities</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="col">
+              <div className="inner">
+                <div className="icon">
+                  <div className="image">
+                    <img src="/images/of4.png" alt="Golf Course" />
+                  </div>
+                  <h4>Golf Course</h4>
+                </div>
+                <div className="text">
+                  <ul>
+                    <li>
+                      Championship-level course with pristine fairways and
+                      scenic greens
+                    </li>
+                    <li>
+                      Designed for all skill levels, offering both challenge and
+                      playability
+                    </li>
+                    <li>
+                      Peaceful and uncrowded environment for an enjoyable round
+                    </li>
+                    <li>On-site pro shop with premium golf gear and apparel</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <section id="gallery">
+          <div className="contain">
+            <Gallery />
+          </div>
+        </section>
+
       </main>
     </>
   );

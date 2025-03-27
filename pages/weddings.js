@@ -5,7 +5,7 @@ import http from "@/helpers/http";
 import { cmsFileUrl } from "@/helpers/helpers";
 import Text from "@/components/text";
 import MetaGenerator from "@/components/meta-generator";
-
+import Galleria from "@/components/galleria";
 export const getServerSideProps = async (context) => {
   const result = await http
     .post("wedding-at-sherwood-golf", doObjToFormData({ token: "" }))
@@ -17,6 +17,7 @@ export const getServerSideProps = async (context) => {
 
 export default function Weddings({result}) {
   const { content, page_title, site_settings  } = result;
+
 
   return (
     <>
@@ -81,13 +82,16 @@ export default function Weddings({result}) {
                       </div>
                       );
                     })}
-  
-         
+            </div>
+            <div className="btn_blk">
+              <Link href="/" className="site_btn ">
+                Inquire Now
+              </Link>
             </div>
           </div>
         </section>
 
-        <section id="proshop" className="catering">
+        {/* <section id="proshop" className="catering">
           <div className="contain">
             <div className="flex">
               <div className="col1">
@@ -127,7 +131,19 @@ export default function Weddings({result}) {
               </div>
             </div>
           </div>
+        </section> */}
+        <section id="galleria">
+          <div className="contain">
+          <Galleria />
+          </div>
+          <div className="btn_blk">
+              <Link href="/" className="site_btn ">
+                Inquire Now
+              </Link>
+            </div>
         </section>
+
+
       </main>
     </>
   );

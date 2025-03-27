@@ -57,11 +57,10 @@ export default function Tournament({result}) {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ut elit tellus, luctus nec ullamcorper mattis
                       </p>
-                      <div className="btn_blk">
-                        <Link href="/" className="site_btn md">
-                          Get Ticket
-                        </Link>
-                      </div>
+                      <span>To participate contact us at</span>
+                      <Link href="/" className="">
+                        info@sherwoodgolf.com
+                      </Link>
                     </div>
                     <div className="blc_inn">
                       <ul>
@@ -89,11 +88,10 @@ export default function Tournament({result}) {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ut elit tellus, luctus nec ullamcorper mattis
                       </p>
-                      <div className="btn_blk">
-                        <Link href="/" className="site_btn md">
-                          Get Ticket
-                        </Link>
-                      </div>
+                      <span>To participate contact us at</span>
+                      <Link href="/" className="">
+                        info@sherwoodgolf.com
+                      </Link>
                     </div>
                     <div className="blc_inn">
                       <ul>
@@ -121,11 +119,10 @@ export default function Tournament({result}) {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ut elit tellus, luctus nec ullamcorper mattis
                       </p>
-                      <div className="btn_blk">
-                        <Link href="/" className="site_btn md">
-                          Get Ticket
-                        </Link>
-                      </div>
+                      <span>To participate contact us at</span>
+                      <Link href="/" className="">
+                        info@sherwoodgolf.com
+                      </Link>
                     </div>
                     <div className="blc_inn">
                       <ul>
@@ -150,7 +147,7 @@ export default function Tournament({result}) {
           </div>
         </section>
 
-        <section id="boutique" className=" golfclub">
+        {/* <section id="boutique" className=" golfclub">
           <div className="contain">
             <div className="flex">
               <div className="col1">
@@ -169,7 +166,7 @@ export default function Tournament({result}) {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="whychoose">
           <div className="contain">
@@ -191,7 +188,6 @@ export default function Tournament({result}) {
                       </div>
                       );
                     })}
-           
             </div>
           </div>
         </section>
@@ -332,6 +328,22 @@ export default function Tournament({result}) {
                       </div>
                     </div>
                   </form>
+                </div> */}
+                <h2>Let us plan your next tournament for you</h2>
+                <p>
+                  Hosting a golf tournament has never been easier! At Sherwood,
+                  we take care of every detail, from organizing tee times and
+                  scorekeeping to providing catering and on-course amenities.
+                  Whether it's a corporate event, charity fundraiser, or a
+                  friendly competition, our expert team ensures a seamless and
+                  memorable experience for all participants. Let us handle the
+                  logistics while you focus on enjoying the game and
+                  strengthening connections.
+                </p>
+                <div className="btn_blk">
+                  <Link href="/" className="site_btn ">
+                  Contact Us
+                  </Link>
                 </div>
               </div>
             </div>

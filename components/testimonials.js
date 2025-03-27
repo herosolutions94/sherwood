@@ -15,19 +15,42 @@ export default function Testimonials({ testimonials }) {
     responsive: [
       {
         breakpoint: 1300,
-        settings: { slidesToShow: 1, slidesToScroll: 1, infinite: true },
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          arrows: false,
+          dots: true,
+        },
       },
       {
         breakpoint: 1025,
-        settings: { slidesToShow: 1, slidesToScroll: 1, infinite: true },
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          arrows: false,
+          dots: true,
+        },
       },
       {
         breakpoint: 1000,
-        settings: { slidesToShow: 1, slidesToScroll: 1, infinite: true },
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          arrows: false,
+          dots: true,
+        },
       },
       {
         breakpoint: 769,
-        settings: { slidesToShow: 1, slidesToScroll: 1 },
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          dots: true,
+        },
       },
     ],
   };
