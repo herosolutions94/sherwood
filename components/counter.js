@@ -1,30 +1,25 @@
 import CountUp from "react-countup";
 
-const CounterSection = () => {
+const CounterSection = ({ content, sectionPrefix = "sec3" }) => {
+  if (!content) return null; // Handle case when content is null
+
   return (
     <section id="counter">
       <div className="contain">
         <div className="flex">
-          <div className="col1">
-            <h2><CountUp end={18} duration={4} /></h2>
-            <p>Hole</p>
-          </div>
-          <div className="col1">
-            <h2><CountUp end={71} duration={4} /></h2>
-            <p>Par</p>
-          </div>
-          <div className="col1">
-            <h2><CountUp end={5857} duration={4} /></h2>
-            <p>Yards</p>
-          </div>
-          <div className="col1">
-            <h2><CountUp end={70.0} duration={4} decimals={1} /></h2>
-            <p>Rating</p>
-          </div>
-          <div className="col1">
-            <h2><CountUp end={139} duration={4} /></h2>
-            <p>Slope</p>
-          </div>
+          {Array.from({ length: 5 }, (_, i) => {
+            const headingKey = `${sectionPrefix}_heading${i + 2}`;
+            const textKey = `${sectionPrefix}_text${i + 2}`;
+
+            return (
+              <div className="col1" key={i}>
+                <h2>
+                  <CountUp end={parseFloat(content[headingKey]) || 0} duration={4} decimals={1} />
+                </h2>
+                <p>{content[textKey] || "No text available"}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

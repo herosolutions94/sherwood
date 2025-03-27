@@ -1,13 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-export default function About() {
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
+
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("about-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function About({ result }) {
   const [tabs, setTabs] = useState(0);
+  const [activeTab, setActiveTab] = useState(3);
+  const { content, page_title, site_settings , teams } = result;
+  const eventIndexes = [3, 4, 5, 6];
+  const tabData = [3, 4, 5];
   return (
     <>
+            <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
+    
       <main>
-        <section id="smallbanner">
+        <section
+          id="smallbanner"
+          style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+        >
           <div className="contain">
-            <h1>About Us</h1>
+            <h1>{content?.overview_heading}</h1>
           </div>
         </section>
         <section id="about">
@@ -15,19 +39,12 @@ export default function About() {
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/about1.png" />
+                  <img src={cmsFileUrl(content?.image2)} />
                 </div>
               </div>
               <div className="col2">
-                <h2>We Have Best Insturctors Teach, You Golfing mates.</h2>
-                <p>
-                  All the Lorem Ipsum generators on the Internet tend to
-                  predefined chunks as necessary, making this the first true
-                  generator on net utperspiciatis un omniste natus error sit
-                  volupta accusantium words. When an unknown printer took a
-                  galley of type and scrambled it to make a type specimen book.
-                  It has survived not only five.
-                </p>
+                <h2>{content?.section1_heading}</h2>
+                <Text string={content?.section1_text} />
               </div>
             </div>
           </div>
@@ -35,51 +52,37 @@ export default function About() {
         <section id="history">
           <div className="contain">
             <div className="content_center">
-              <h2>We Have a Great History to Start Our Company.</h2>
+              <h2>{content?.section2_heading}</h2>
             </div>
             {/*  */}
 
             <div className="flex">
               <div className="col left">
-                <div className="text mb">
-                  <h5>May 2020</h5>
-                  <p>
-                    All the Lorem Ipsum generators on the Internet tend to pre
-                    chunks as necessary, making this the first true on net. Uses
-                    ipsum dictionary of over good always true.
-                  </p>
-                </div>
-                <div className="text">
-                  <h5>May 2020</h5>
-                  <p>
-                    All the Lorem Ipsum generators on the Internet tend to pre
-                    chunks as necessary, making this the first true on net. Uses
-                    ipsum dictionary of over good always true.
-                  </p>
-                </div>
+                {eventIndexes.map((i, index) =>
+                  index % 2 === 0 ? (
+                    <div className="text mb" key={i}>
+                      <h5>{content?.[`sec2_date${i}`]}</h5>
+                      <Text string={content?.[`section2_text${i}`]} />
+                    </div>
+                  ) : null
+                )}
               </div>
+
               <div className="col">
                 <div className="image">
-                  <img src="/images/tree.png" />
+                  <img src="/images/tree.png" alt="Center Image" />
                 </div>
               </div>
+
               <div className="col right">
-              <div className="text mb">
-                  <h5>May 2020</h5>
-                  <p>
-                    All the Lorem Ipsum generators on the Internet tend to pre
-                    chunks as necessary, making this the first true on net. Uses
-                    ipsum dictionary of over good always true.
-                  </p>
-                </div>
-                <div className="text">
-                  <h5>May 2020</h5>
-                  <p>
-                    All the Lorem Ipsum generators on the Internet tend to pre
-                    chunks as necessary, making this the first true on net. Uses
-                    ipsum dictionary of over good always true.
-                  </p>
-                </div>
+                {eventIndexes.map((i, index) =>
+                  index % 2 !== 0 ? (
+                    <div className="text mb" key={i}>
+                      <h5>{content?.[`sec2_date${i}`]}</h5>
+                      <Text string={content?.[`section2_text${i}`]} />
+                    </div>
+                  ) : null
+                )}
               </div>
             </div>
 
@@ -91,45 +94,26 @@ export default function About() {
           <div className="contain">
             <div className="flex">
               <div className="content_center">
-                <h2>We provide top-tier instructors to teach you golf</h2>
+              <h2>{content?.section3_top_heading}</h2>
               </div>
+              
+              
               <div className="flex">
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t1.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t2.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t3.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t4.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
+                {teams.map((team, index) => (
+                            
+                              <div className="coll">
+                              <div className="inner">
+                                <div className="image">
+                                  <img src={cmsFileUrl(team.image, 'team')} />
+                                </div>
+                                <h4>{team.title}</h4>
+                                <p>{team.content}</p>
+                              </div>
+                            </div>
+                          
+                        ))}
+              
+          
               </div>
             </div>
           </div>
@@ -149,87 +133,35 @@ export default function About() {
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/story.png" />
+                  <img src={cmsFileUrl(content?.image3)} alt="Section Image" />
                 </div>
               </div>
+
               <div className="col2">
-                <h2>The Stories From Behind The Scenes & Famous Golfers</h2>
+                <h2>{content?.section4_top_heading}</h2>
+
                 <div className="tabs_nav">
-                  <button
-                    type="button"
-                    className={tabs == 0 ? "active" : ""}
-                    onClick={() => setTabs(0)}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    type="button"
-                    className={tabs == 1 ? "active" : ""}
-                    onClick={() => setTabs(1)}
-                  >
-                    Vision
-                  </button>
-                  <button
-                    type="button"
-                    className={tabs == 2 ? "active" : ""}
-                    onClick={() => setTabs(2)}
-                  >
-                    Our Values
-                  </button>
+                  {tabData.map((i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      className={activeTab === i ? "active" : ""}
+                      onClick={() => setActiveTab(i)}
+                    >
+                      {content?.[`sec4_heading${i}`] || `Tab ${i}`}
+                    </button>
+                  ))}
                 </div>
-                {tabs === 0 && (
-                  <div>
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry’s
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley arcu mauris duis diam, There are
-                      many variations of passages of Lorem Ipsum available, but
-                      the majority have suffered alteration..
-                    </p>
-                    <ul>
-                      <li>300+ Golf Competitions</li>
-                      <li>50+ Proficient Instructors</li>
-                      <li>Amateur Championships</li>
-                      <li>Amateur Championships</li>
-                    </ul>
-                  </div>
-                )}
-                {tabs === 1 && (
-                  <div>
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry’s
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley arcu mauris duis diam, There are
-                      many variations of passages of Lorem Ipsum available, but
-                      the majority have suffered alteration..
-                    </p>
-                    <ul>
-                      <li>300+ Golf Competitions</li>
-                      <li>50+ Proficient Instructors</li>
-                      <li>Amateur Championships</li>
-                      <li>Amateur Championships</li>
-                    </ul>
-                  </div>
-                )}
-                {tabs === 2 && (
-                  <div>
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry’s
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley arcu mauris duis diam, There are
-                      many variations of passages of Lorem Ipsum available, but
-                      the majority have suffered alteration..
-                    </p>
-                    <ul>
-                      <li>300+ Golf Competitions</li>
-                      <li>50+ Proficient Instructors</li>
-                      <li>Amateur Championships</li>
-                      <li>Amateur Championships</li>
-                    </ul>
-                  </div>
+
+                {tabData.map(
+                  (i) =>
+                    activeTab === i && (
+                      <div key={i}>
+                        <Text string={content?.[`sec2_text${i}`] } />
+
+                        
+                      </div>
+                    )
                 )}
               </div>
             </div>
@@ -239,26 +171,12 @@ export default function About() {
           <div className="contain">
             <div className="flex">
               <div className="col1">
-                <h2>Meet Our General Manager</h2>
-                <p>
-                  At the heart of Sherwood's success stands our esteemed General
-                  Manager, [Name], whose dedication and leadership have shaped
-                  our journey over the years. With a deep passion for excellence
-                  and a wealth of experience in the industry, [Name] has been an
-                  integral part of Sherwood for [X] years, ensuring the highest
-                  standards in operations, customer service, and innovation.
-                </p>
-                <p>
-                  Under his guidance, Sherwood has continued to grow, evolving
-                  into a trusted name known for its commitment to quality and
-                  professionalism. His vision and strategic approach have played
-                  a crucial role in fostering a culture of excellence, making
-                  Sherwood a leader in its field.
-                </p>
+                <h2>{content?.section5_heading}</h2>
+                <Text string={content?.section5_text} />
               </div>
               <div className="col2">
                 <div className="image">
-                  <img src="/images/manager.png" />
+                  <img src={cmsFileUrl(content?.image4)} />
                 </div>
               </div>
             </div>

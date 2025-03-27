@@ -1,14 +1,19 @@
 import React from "react"
 import Head from "next/head"
 
-export default function SiteMaster() {
+export default function SiteMaster(siteSettings) {
     
     return (
         <Head>
-            <title>Sherwood</title>
-            <meta name="title" content="Ultimate destination for finding reliable Professional & Artisan Services" />
-            <meta name="description" content="Ultimate destination for finding reliable Professional & Artisan Services" />
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
+            <title>{siteSettings.siteSettings.site_name}</title>
+            <meta name="description" content={siteSettings.siteSettings.site_meta_desc} />
+            <meta name="keywords" content={siteSettings.siteSettings.site_meta_keyword} />
+
+            {siteSettings?.siteSettings?.site_icon && (
+  <link
+    rel="icon"
+    href={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}storage/images/${siteSettings.siteSettings.site_icon}`}
+  />
+)}    </Head>
     )
   }

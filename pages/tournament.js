@@ -1,31 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
 
-export default function Tournament() {
-  return (
-    <>
-      <main>
-        <section id="smallbanner">
-          <div className="contain">
-            <h1>Tournaments</h1>
-          </div>
-        </section>
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("tournaments", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Tournament({result}) {
+   const { content, page_title, site_settings  } = result;
+  
+    return (
+      <>
+        <MetaGenerator
+          page_title={page_title + " - " + site_settings?.site_name}
+          site_settings={site_settings}
+          meta_info={content}
+        />
+  
+        <main>
+          <section
+            id="smallbanner"
+            style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+          >
+            <div className="contain">
+              <h1>{content?.overview_heading}</h1>
+            </div>
+          </section>
 
         <section id="golf">
           <div className="contain">
             <div className="content_center">
-              <h2>Upcoming Tournaments</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-                tempor turpis quis libero imperdiet, vel semper mauris eleifend.
-                Orci varius natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus.
-              </p>
+            <h2>{content?.section1_heading}</h2>
+            <Text string={content?.section1_text} />
             </div>
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/golf.png" />
+                  <img src={cmsFileUrl(content?.image2)} />
                 </div>
               </div>
               <div className="col2">
@@ -131,26 +151,17 @@ export default function Tournament() {
           <div className="contain">
             <div className="flex">
               <div className="col1">
-                <h2>Golf Tournaments at Sherwood Club</h2>
-                <div className="italic">
-                  Experience the Thrill of Competitive Golf
-                </div>
-                <p>
-                  Join us for an exhilarating lineup of golf tournaments
-                  designed for players of all skill levels. Whether you're a
-                  seasoned professional or an enthusiastic amateur, our
-                  beautifully maintained course provides the perfect backdrop
-                  for exciting competition.
-                </p>
+                <h2>{content?.section3_heading}</h2>
+                <Text string={content?.section3_text} />
                 <div className="btn_blk">
-                  <Link href="/" className="site_btn">
-                    Book Now
+                  <Link href={content?.banner_link_url_sec31}className="site_btn">
+                  {content?.banner_link_text_sec31}
                   </Link>
                 </div>
               </div>
               <div className="col2">
                 <div className="image">
-                  <img src="/images/golfclub.png" />
+                  <img src={cmsFileUrl(content?.image3)} />
                 </div>
               </div>
             </div>
@@ -160,39 +171,23 @@ export default function Tournament() {
         <section id="whychoose">
           <div className="contain">
             <div className="content_center">
-              <h2>Why Choose Sherwood</h2>
+              <h2>{content?.section3_top_heading}</h2>
             </div>
             <div className="flex">
-              <div className="coll">
-                <div className="icon">
-                  <img src="images/wc1.png" />
-                </div>
-                <h4>Championship-level course</h4>
-                <p>
-                  Sit amet consectetur adipiscing elit eiusmod tempor incididunt
-                  ut labore dolore
-                </p>
-              </div>
-              <div className="coll">
-                <div className="icon">
-                  <img src="images/wc2.png" />
-                </div>
-                <h4>Professional event coordination</h4>
-                <p>
-                  Sit amet consectetur adipiscing elit eiusmod tempor incididunt
-                  ut labore dolore
-                </p>
-              </div>
-              <div className="coll">
-                <div className="icon">
-                  <img src="images/wc3.png" />
-                </div>
-                <h4>Exclusive hospitality & dining options</h4>
-                <p>
-                  Sit amet consectetur adipiscing elit eiusmod tempor incididunt
-                  ut labore dolore
-                </p>
-              </div>
+            {Array.from({ length: 3 }, (_, i) => {
+                      
+              
+                      return (
+                        <div className="coll">
+                     
+                          <h4>{content?.[`sec1_heading${i + 2}`]}</h4>
+                          <p>
+                          {content?.[`sec1_text${i + 2}`]}
+                            </p>
+                           
+                      </div>
+                      );
+                    })}
             </div>
           </div>
         </section>
@@ -201,19 +196,23 @@ export default function Tournament() {
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/reserve.png" />
+                  <img src={cmsFileUrl(content?.image6)}  />
                   <div className="text">
-                    <h3>Plan Your Perfect Golf Experience – Book Now!</h3>
-                    <p>Seamless Reservations for Tournaments & Events</p>
+                    <h3> {content?.section4_v_heading}</h3>
+                    <p> {content?.section4_v_text}</p>
                   </div>
                   <div className="playicon">
+                  <Link href={content?.section4_v_link}>
+               
                     <img src="/images/play.svg" />
+                 
+                  </Link>
                   </div>
                 </div>
               </div>
               <div className="col2">
-                {/* <div className="outer">
-                  <h3>Reserve Your Spot</h3>
+                <div className="outer">
+                  <h3> {content?.section4_heading}</h3>
                   <form>
                     <div className="row">
                       <h4>Personal Information</h4>
@@ -324,7 +323,7 @@ export default function Tournament() {
                       </div>
                       <div className="btn_blk">
                         <button type="submit" className="site_btn min_wid">
-                          Send Message
+                        {content?.section4_link_text}
                         </button>
                       </div>
                     </div>

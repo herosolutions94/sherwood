@@ -1,23 +1,23 @@
 import Link from "next/link"
 import React from 'react'
 
-export default function Footer() {
+export default function Footer( siteSettings ) {
   const data = {
     list_02: [
       {
         id: 1,
         text: "About us",
-        link: "/",
+        link: "/about",
       },
       {
         id: 2,
         text: "ProShop & boutique",
-        link: "/about",
+        link: "/proshop",
       },
       {
         id: 3,
         text: "Partnerships",
-        link: "/",
+        link: "/partnerships",
       }
     ],
     list_03: [
@@ -29,12 +29,12 @@ export default function Footer() {
       {
         id: 3,
         text: "Green fee rates",
-        link: "/",
+        link: "/green-fee-rates",
       },
       {
         id: 4,
         text: "Scorecard",
-        link: "/",
+        link: "/scorecard",
       }
     ],
     list_04: [
@@ -108,24 +108,42 @@ export default function Footer() {
                 <div className="in_col">
                   <h4>Contact Us</h4>
                   <div className="social_logon">
-                    <Link href="/" target="_blank" rel="noreferrer">
-                      <img src="/images/facebook.svg" alt="" />
-                    </Link>
-                    <Link href="/" target="_blank" rel="noreferrer">
-                      <img src="/images/instagram.svg" alt="" />
-                    </Link>
-                    <Link href="/" target="_blank" rel="noreferrer">
-                      <img src="/images/linkedin.svg" alt="" />
-                    </Link>
-                  </div>
+  {siteSettings?.siteSettings?.site_facebook && (
+    <a
+      href={siteSettings.siteSettings.site_facebook}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img src="/images/facebook.svg" alt="Facebook" />
+    </a>
+  )}
+  {siteSettings?.siteSettings?.site_instagram && (
+    <a
+      href={siteSettings.siteSettings.site_instagram}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img src="/images/instagram.svg" alt="Instagram" />
+    </a>
+  )}
+  {siteSettings?.siteSettings?.site_linkedin && (
+    <a
+      href={siteSettings.siteSettings.site_linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img src="/images/linkedin.svg" alt="LinkedIn" />
+    </a>
+  )}
+</div>
+
                 </div>
               </div>
             </div>
            
             <div className="copyright">
               <p className="text-center">
-              Sherwood-Golf @ 2025. All rights reserved.
-              </p>
+              {siteSettings.siteSettings.site_copyright}              </p>
               <ul className="footer_nav">
               <li><Link href="/">Home</Link></li>
               <li><Link href="/">Memberships</Link></li>

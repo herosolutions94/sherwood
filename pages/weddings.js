@@ -1,37 +1,57 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
 import Galleria from "@/components/galleria";
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("wedding-at-sherwood-golf", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
 
-export default function Weddings() {
+  return { props: { result } };
+};
+
+export default function Weddings({result}) {
+  const { content, page_title, site_settings  } = result;
+
+
   return (
     <>
+      <MetaGenerator
+        page_title={page_title + " - " + site_settings?.site_name}
+        site_settings={site_settings}
+        meta_info={content}
+      />
+
       <main>
-        <section id="smallbanner">
+        <section
+          id="smallbanner"
+          style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+        >
           <div className="contain">
-            <h1>Wedding at Sherwood Golf</h1>
+            <h1>{content?.overview_heading}</h1>
           </div>
         </section>
-
         <section id="boutique" className="pt">
           <div className="contain">
             <div className="flex">
               <div className="col1">
-                <h2>A Dream Wedding in a Stunning Natural Setting</h2>
-                <p>
-                  Celebrate your special day at Sherwood Golf & Country Club,
-                  surrounded by breathtaking landscapes, elegant venues, and a
-                  touch of luxury. Our serene environment provides the perfect
-                  backdrop for an unforgettable wedding experience.
-                </p>
+                <h2>{content?.section1_heading}</h2>
+            <Text string={ content?.section1_text}/>
+               
                 <div className="btn_blk">
-                  <Link href="/" className="site_btn">
-                    Plan Your Wedding
+                  <Link href={content?.banner_link_url_1} className="site_btn">
+                  {content?.banner_link_text_1}
                   </Link>
                 </div>
               </div>
               <div className="col2">
                 <div className="image">
-                  <img src="/images/wedding.png" />
+                  <img src={cmsFileUrl(content?.image2)} />
                 </div>
               </div>
             </div>
@@ -41,43 +61,27 @@ export default function Weddings() {
         <section id="wedding_packages">
           <div className="contain">
             <div className="content_center">
-              <h2>Tailored Wedding Packages for Your Perfect Day</h2>
-              <p>
-                Make your wedding day truly unforgettable with our thoughtfully
-                designed wedding packages. Whether you prefer an intimate
-                gathering or a grand celebration, Sherwood Golf & Country Club
-                offers tailored options to suit your dream vision.
-              </p>
+              <h2>{content?.section2_heading}</h2>
+              <Text string={ content?.section2_text}/>
+
             </div>
             <div className="flex">
-              <div className="coll">
-                <div className="inner">
-                  <h4>Classic Wedding Package</h4>
-                  <p>
-                    A simple yet elegant package for couples looking for a
-                    beautiful ceremony with essential wedding services.
-                  </p>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <h4>Premium Wedding Package</h4>
-                  <p>
-                    A refined wedding experience with enhanced services and
-                    luxury elements to elevate your big day.
-                  </p>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <h4>Custom Wedding Package</h4>
-                  <p>
-                    A fully customizable package designed to match your unique
-                    wedding vision with exclusive services tailored to your
-                    needs.
-                  </p>
-                </div>
-              </div>
+                 {Array.from({ length: 3 }, (_, i) => {
+                      
+              
+                      return (
+                        <div className="coll">
+                        <div className="inner">
+                     
+                          <h4>{content?.[`sec1_heading${i + 2}`]}</h4>
+                          <p>
+                          {content?.[`sec1_text${i + 2}`]}
+                            </p>
+                           
+                        </div>
+                      </div>
+                      );
+                    })}
             </div>
             <div className="btn_blk">
               <Link href="/" className="site_btn ">
@@ -92,25 +96,15 @@ export default function Weddings() {
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/wedding2.png" />
+                  <img src={cmsFileUrl(content?.image3)} />
                 </div>
               </div>
               <div className="col2">
-                <h2> Catering & Dining</h2>
-                <ul>
-                  <li>
-                  Custom Menus: Curated by our expert chefs to match your preferences.
-                  </li>
-                  <li>
-                  Buffet & Plated Options: Flexible choices to suit your guests.
-                  </li>
-                  <li>
-                  Signature Drinks & Bar Services: Enhance your celebration with custom cocktails and premium beverages
-                  </li>
-                </ul>
+              <h2>{content?.section3_heading}</h2>
+              <Text string={ content?.section3_text}/>
                 <div className="btn_blk">
-                <Link href="/" className="site_btn">
-                Book Now
+                <Link href={content?.section3_heading} className="site_btn">
+                {content?.section3_heading}
                 </Link>
               </div>
               </div>
@@ -121,27 +115,18 @@ export default function Weddings() {
           <div className="contain">
             <div className="flex">
               <div className="col1">
-                <h2>Exclusive Services</h2>
-                <ul>
-                  <li>
-                  Dedicated wedding coordinator to assist with planning.
-                  </li>
-                  <li>
-                  On-site accommodations for the couple and guests.
-                  </li>
-                  <li>
-                  Décor, lighting, and entertainment coordination.
-                  </li>
-                </ul>
+                <h2>{content?.section4_heading}</h2>
+                <Text string={ content?.section4_text}/>
+
                 <div className="btn_blk">
-                  <Link href="/" className="site_btn">
-                    Plan Your Wedding
+                  <Link href={content?.banner_link_url_sec41} className="site_btn">
+                  {content?.banner_link_text_sec41}
                   </Link>
                 </div>
               </div>
               <div className="col2">
                 <div className="image">
-                  <img src="/images/wedding3.png" />
+                  <img src={cmsFileUrl(content?.image4)} />
                 </div>
               </div>
             </div>
