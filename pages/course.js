@@ -1,16 +1,41 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import CounterSection from "@/components/counter";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
 
-export default function Course() {
-  return (
-    <>
-      <main>
-        <section id="smallbanner">
-          <div className="contain">
-            <h1>The Course</h1>
-          </div>
-        </section>
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("courses", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Course({result}) {
+  const { content, page_title, site_settings  } = result;
+ 
+   return (
+     <>
+       <MetaGenerator
+         page_title={page_title + " - " + site_settings?.site_name}
+         site_settings={site_settings}
+         meta_info={content}
+       />
+ 
+       <main>
+         <section
+           id="smallbanner"
+           style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+         >
+           <div className="contain">
+             <h1>{content?.overview_heading}</h1>
+           </div>
+         </section>
         {/* <section id="course">
           <div className="contain">
             <div className="flex">
@@ -178,34 +203,22 @@ export default function Course() {
           </div>
         </section>
 
-        <CounterSection />
+        <CounterSection content={content} sectionPrefix="sec3" />
 
         <section id="proshop" >
           <div className="contain">
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/dress.png" />
+                  <img src={cmsFileUrl(content?.image5)} />
                 </div>
               </div>
               <div className="col2">
-                <h2>Dress Code & Clubhouse Information</h2>
-                <p>
-                  Designed for all skill levels, Sherwood Golf & Country Club
-                  offers pristine fairways, scenic landscapes, and a challenge
-                  for every golfer.
-                </p>
-                <ul>
-                  <li>
-                    Sed ut perspiciatis unde omnis iste natus error sit volupta
-                  </li>
-                  <li>Accusantium doloremque laudantium, totam rem aperi</li>
-                  <li>Dolore magnam aliquam quaerat voluptatem</li>
-                  <li>Ut enim ad minima veniam, quis nostrum exercitatio</li>
-                </ul>
+              <h2>{content?.section4_heading}</h2>
+                <Text string={content?.section4_text} />
                 <div className="btn_blk">
-                  <Link href="/" className="site_btn">
-                    View Course Details
+                  <Link href={content?.section4_link_url} className="site_btn">
+                  {content?.section4_link_text}
                   </Link>
                 </div>
               </div>
@@ -215,19 +228,17 @@ export default function Course() {
         <section id="bg2" className="mb">
           <div className="contain">
             <div className="content">
-              <h2>Take Your Game To The Next Level.</h2>
-              <p>
-                We provide the high quality of championship grulf, striking
-                views and outstanding service that we offer our valued guests.
-              </p>
-              <div className="btn_blk">
-                <Link href="/" className="site_btn  color">
-                  Become a Member
-                </Link>
-                <Link href="/" className="site_btn blank ">
-                  Contact Us
-                </Link>
-              </div>
+            <h2>{content?.section2_top_heading}</h2>
+                <Text string={content?.section2_text} />
+                <div className="btn_blk">
+                  <Link href={content?.section2_link_url} className="site_btn color">
+                  {content?.section2_link_text}
+                  </Link>
+                  <Link href={content?.section2_link_url2} className="site_btn blank">
+                  {content?.section2_link_text2}
+                  </Link>
+                </div>
+           
             </div>
           </div>
         </section>

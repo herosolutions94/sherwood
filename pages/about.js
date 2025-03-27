@@ -18,7 +18,7 @@ export const getServerSideProps = async (context) => {
 export default function About({ result }) {
   const [tabs, setTabs] = useState(0);
   const [activeTab, setActiveTab] = useState(3);
-  const { content, page_title, site_settings } = result;
+  const { content, page_title, site_settings , teams } = result;
   const eventIndexes = [3, 4, 5, 6];
   const tabData = [3, 4, 5];
   return (
@@ -99,42 +99,21 @@ export default function About({ result }) {
               
               
               <div className="flex">
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t1.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t2.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t3.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
-                <div className="coll">
-                  <div className="inner">
-                    <div className="image">
-                      <img src="/images/t4.png" />
-                    </div>
-                    <h4>Robert Fox</h4>
-                    <p>Sr. Golf Coach</p>
-                  </div>
-                </div>
+                {teams.map((team, index) => (
+                            
+                              <div className="coll">
+                              <div className="inner">
+                                <div className="image">
+                                  <img src={cmsFileUrl(team.image, 'team')} />
+                                </div>
+                                <h4>{team.title}</h4>
+                                <p>{team.content}</p>
+                              </div>
+                            </div>
+                          
+                        ))}
+              
+          
               </div>
             </div>
           </div>
