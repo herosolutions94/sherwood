@@ -1344,7 +1344,7 @@ label {
   // padding: 0.6rem 1.4rem;
   border: none;
   @include radius(0px);
-  border-bottom: 1px solid #8E8F8F;
+  border-bottom: 1px solid #8E8F8F ;
   outline: none !important;
   @include trans;
   &:-webkit-autofill {
@@ -2642,6 +2642,8 @@ header {
     }
   }
 }
+
+
 .logo {
   position: relative;
   @include flex(center);
@@ -2673,9 +2675,7 @@ header {
       height: 6rem;
       max-width: 14rem;
     }
-    @include ipad_sm {
-      margin-left: 3rem;
-    }
+
   }
   .session_header & {
     @include ipad_sm {
@@ -2932,6 +2932,12 @@ nav {
 .login_btns {
   @include pos($l: null, $r: 1.5rem);
   @include flex($align: center);
+
+  @include ipad_sm {
+
+      display: none;
+
+  }
   ul {
     @include list;
     @include flex;

@@ -18,6 +18,8 @@ export default function Testimonials() {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
+          arrows: false,
+          dots: true,
         },
       },
       {
@@ -26,6 +28,8 @@ export default function Testimonials() {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
+          arrows: false,
+          dots: true,
         },
       },
       {
@@ -34,6 +38,8 @@ export default function Testimonials() {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
+          arrows: false,
+          dots: true,
         },
       },
       {
@@ -41,6 +47,8 @@ export default function Testimonials() {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          arrows: false,
+          dots: true,
         },
       },
     ],
