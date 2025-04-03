@@ -1,87 +1,75 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Gallery from "@/components/gallery";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
+
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("corporate-retreats-meetings", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
 
 
-export default function Corporate() {
+export default function Corporate({ result }) {
+  const { content, page_title, site_settings, gallery, packages } = result;
+
   return (
     <>
+      <MetaGenerator
+        page_title={page_title + " - " + site_settings?.site_name}
+        site_settings={site_settings}
+        meta_info={content}
+      />
+
       <main>
-        <section id="smallbanner">
+        <section
+          id="smallbanner"
+          style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+        >
           <div className="contain">
-            <h1>Corporate Retreats & Meetings</h1>
+            <h1>{content?.overview_heading}</h1>
           </div>
         </section>
 
         <section id="packages">
           <div className="contain">
             <div className="content_center">
-              <h2>Corporate Packages</h2>
-              <p>
-                Sherwood delight ourselves on the high quality of championship
-                grulf and marvellous service that we offer our valued visitors.
-                Membership includes the opportunity to play in weekly and
-                monthly.
-              </p>
+              <h2>{content?.section1_top_heading}</h2>
+              <Text string={content?.section1_text} />
             </div>
             <div className="flex">
-              <div className="col">
-                <div className="inner">
-                  <div className="image">
-                    <img src="images/pk1.png" />
-                  </div>
-                  <h3>Corporate Passes</h3>
-                  <p>
-                    Gain access to premium golf facilities with our exclusive
-                    corporate passes. Perfect for businesses looking to offer
-                    employees or clients a first-class golfing experience with
-                    added privileges and benefits.
-                  </p>
-                  <div className="btn_blk">
-                    <Link href="/" className="site_btn ">
-                      Choose Your Package
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col">
-                <div className="inner">
-                  <div className="image">
-                    <img src="images/pk2.png" />
-                  </div>
-                  <h3>Corporate Stay & Play</h3>
-                  <p>
-                    Combine business with leisure in our luxurious chalets while
-                    enjoying unlimited golf access. Ideal for corporate
-                    retreats, team-building events, or executive getaways in a
-                    tranquil and inspiring environment.
-                  </p>
-                  <div className="btn_blk">
-                    <Link href="/" className="site_btn color">
-                      Choose Your Package
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col">
-                <div className="inner">
-                  <div className="image">
-                    <img src="images/pk3.png" />
-                  </div>
-                  <h3>Corporate Golf Tournament</h3>
-                  <p>
-                    Host an unforgettable corporate golf tournament with our
-                    fully managed event services. From course reservations to
-                    catering and prizes, we ensure a seamless and prestigious
-                    experience for your business and guests.
-                  </p>
-                  <div className="btn_blk">
-                    <Link href="/" className="site_btn color">
-                      Choose Your Package
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              {packages.length > 0 ? (
+                packages.map((pkg) => (
+                
+                     <div className="col" key={pkg.id}>
+                     <div className="inner">
+                       <div className="image">
+                         <img src={cmsFileUrl(pkg.image, 'packages')} />
+                       </div>
+                       <h3>{pkg.title}</h3>
+                       <p>
+                       {pkg.short_detail}
+                       </p>
+                       <div className="btn_blk">
+                         <Link href="/" className="site_btn">
+                           Choose Your Package
+                         </Link>
+                       </div>
+                     </div>
+                   </div>
+                ))
+              ) : (
+                <p>No packages available for Sunday to Wednesday.</p>
+              )}
+           
+
             </div>
           </div>
         </section>
@@ -293,125 +281,38 @@ export default function Corporate() {
         <section id="sher_offer">
           <div className="contain">
             <div className="content_center">
-              <h2>What Sherwood has to Offer</h2>
-              <p>
-                Sherwood is more than just a destination—it’s an unparalleled
-                experience that blends luxury, nature, and recreation. Whether
-                you're here for a relaxing getaway, an unforgettable round of
-                golf, or a refined dining experience, Sherwood has something for
-                everyone.
-              </p>
-            </div>
-            <div className="col">
-              <div className="inner">
-                <div className="icon">
-                  <div className="image">
-                    <img src="/images/of1.png" alt="Club House" />
-                  </div>
-                  <h4>Club House</h4>
-                </div>
-                <div className="text">
-                  <ul>
-                    <li>A welcoming hub of relaxation and socialization</li>
-                    <li>
-                      Fine dining and casual options with exceptional service
-                    </li>
-                    <li>Lounge areas to unwind after a round of golf</li>
-                    <li>
-                      Exclusive member benefits and access to private events
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <h2>{content?.section3_top_heading}</h2>
+              <Text string={content?.section3_text} />
             </div>
 
-            <div className="col">
-              <div className="inner">
-                <div className="icon">
-                  <div className="image">
-                    <img src="/images/of2.png" alt="Meeting Rooms" />
-                  </div>
-                  <h4>Meeting Rooms</h4>
-                </div>
-                <div className="text">
-                  <ul>
-                    <li>
-                      State-of-the-art event spaces for business meetings,
-                      conferences, and retreats
-                    </li>
-                    <li>
-                      Fully equipped with modern technology and comfortable
-                      seating
-                    </li>
-                    <li>
-                      Customizable setups for corporate events, workshops, and
-                      private gatherings
-                    </li>
-                    <li>
-                      Professional event planning and catering services
-                      available
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
 
-            <div className="col">
-              <div className="inner">
-                <div className="icon">
-                  <div className="image">
-                    <img src="/images/of3.png" alt="Chalets" />
-                  </div>
-                  <h4>Chalets</h4>
-                </div>
-                <div className="text">
-                  <ul>
-                    <li>
-                      Luxurious and cozy accommodations with modern amenities
-                    </li>
-                    <li>Stunning views of the surrounding landscapes</li>
-                    <li>
-                      Perfect for weekend getaways, family vacations, or
-                      romantic retreats
-                    </li>
-                    <li>Access to dining, golf, and outdoor activities</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
 
-            <div className="col">
-              <div className="inner">
-                <div className="icon">
-                  <div className="image">
-                    <img src="/images/of4.png" alt="Golf Course" />
+            {Array.from({ length: 4 }, (_, i) => {
+              return (
+                <div className="col" key={i}>
+                  <div className="inner">
+                    <div className="icon">
+                      <div className="image">
+                        <img src={cmsFileUrl(content?.[`image${i + 8}`])} alt="Club House" />
+                      </div>
+                      <h4>{content?.[`sec2_heading${i + 2}`]}</h4>
+                    </div>
+                    <div className="text">
+                      <Text string={content?.[`sec2_text${i + 2}`]} />
+                    </div>
                   </div>
-                  <h4>Golf Course</h4>
                 </div>
-                <div className="text">
-                  <ul>
-                    <li>
-                      Championship-level course with pristine fairways and
-                      scenic greens
-                    </li>
-                    <li>
-                      Designed for all skill levels, offering both challenge and
-                      playability
-                    </li>
-                    <li>
-                      Peaceful and uncrowded environment for an enjoyable round
-                    </li>
-                    <li>On-site pro shop with premium golf gear and apparel</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+              );
+            })}
+
+
+
           </div>
         </section>
 
         <section id="gallery">
           <div className="contain">
-            <Gallery />
+            <Gallery gallery={gallery} />
           </div>
         </section>
 

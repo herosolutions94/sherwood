@@ -1,13 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
 
-export default function Membership() {
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("memberships-overview", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Membership({result}) {
+const { content, page_title, site_settings } = result;
+
   return (
     <>
+      <MetaGenerator
+        page_title={page_title + " - " + site_settings?.site_name}
+        site_settings={site_settings}
+        meta_info={content}
+      />
+
       <main>
-        <section id="smallbanner">
+        <section
+          id="smallbanner"
+          style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+        >
           <div className="contain">
-            <h1>Membership</h1>
+            <h1>{content?.overview_heading}</h1>
           </div>
         </section>
 
@@ -15,22 +40,18 @@ export default function Membership() {
           <div className="contain">
             <div className="flex">
               <div className="col1">
-                <h2> Membership Benefits</h2>
-                <p>
-                  Become a valued member of Sherwood Golf & Country Club and
-                  enjoy premium access to our stunning 18-hole golf course,
-                  top-tier amenities, and a welcoming golf community. We offer
-                  flexible membership options tailored to your lifestyle.
-                </p>
+                <h2> {content?.section1_heading}</h2>
+                           <Text string={content?.section1_text} />
+               
                 <div className="btn_blk">
-                  <Link href="/" className="site_btn">
-                    Become a Member
+                  <Link href={content?.banner_link_url_1} className="site_btn">
+                  {content?.banner_link_text_1}
                   </Link>
                 </div>
               </div>
               <div className="col2">
                 <div className="image">
-                  <img src="/images/membership.png" />
+                  <img src={cmsFileUrl(content?.image2)} />
                 </div>
               </div>
             </div>
@@ -42,21 +63,15 @@ export default function Membership() {
             <div className="flex">
               <div className="col1">
                 <div className="image">
-                  <img src="/images/m1.png" />
+                <img src={cmsFileUrl(content?.image3)} />
                 </div>
               </div>
               <div className="col2">
-                <h2>Member Referral Program</h2>
-
-                <p>
-                  Become a valued member of Sherwood Golf & Country Club and
-                  enjoy premium access to our stunning 18-hole golf course,
-                  top-tier amenities, and a welcoming golf community. We offer
-                  flexible membership options tailored to your lifestyle.
-                </p>
+              <h2> {content?.section2_heading}</h2>
+              <Text string={content?.section2_text} />
                 <div className="btn_blk">
-                  <Link href="/" className="site_btn color">
-                    Become a Member
+                <Link href={content?.banner_link_url_sec21} className="site_btn color">
+                  {content?.banner_link_text_sec21}
                   </Link>
                 </div>
               </div>
@@ -67,7 +82,7 @@ export default function Membership() {
         <section id="memberships_hexa">
           <div className="contain">
             <div className="content_center">
-              <h2>Our Membership Packages</h2>
+              <h2>{content?.section3_heading}</h2>
             </div>
             <div className="hexagon-container">
               <div className="hexagon">
@@ -97,8 +112,8 @@ export default function Membership() {
               </div>
             </div>
             <div className="btn_blk">
-                  <Link href="/" className="site_btn ">
-                  Apply for Membership
+            <Link href={content?.banner_link_url_sec41} className="site_btn">
+                  {content?.banner_link_text_sec41}
                   </Link>
                 </div>
           </div>
@@ -109,22 +124,14 @@ export default function Membership() {
             <div className="flex">
               <div className="contain col1">
               <div className="">
-                <h2> Ultimate Golf Perks - Reciprocal Network.</h2>
-                <p>
-                  As a member of our club, you gain access to the Ultimate Golf
-                  Perks through our Reciprocal Network. This exclusive network
-                  allows you to enjoy tee times, discounts, and privileges at
-                  some of the finest golf courses across the country. Whether
-                  you're traveling or seeking new challenges, our reciprocal
-                  partnerships ensure that your golf experience is never
-                  limited. Take advantage of this premium benefit and play at
-                  top-tier courses with ease and flexibility.
-                </p>
+              <h2> {content?.section4_heading}</h2>
+              <Text string={content?.section4_text} />
               </div>
               </div>
               <div className="col2">
                 <div className="image">
-                  <img src="/images/bt1.png" />
+                <img src={cmsFileUrl(content?.image4)} />
+
                 </div>
               </div>
             </div>

@@ -84,8 +84,8 @@ export default function Weddings({result}) {
                     })}
             </div>
             <div className="btn_blk">
-              <Link href="/" className="site_btn ">
-                Inquire Now
+              <Link href={content?.banner_link_url_sec31} className="site_btn ">
+              {content?.banner_link_text_sec31}
               </Link>
             </div>
           </div>
@@ -134,11 +134,11 @@ export default function Weddings({result}) {
         </section> */}
         <section id="galleria">
           <div className="contain">
-          <Galleria />
+          <Galleria content={content} />
           </div>
           <div className="btn_blk">
-              <Link href="/" className="site_btn ">
-                Inquire Now
+              <Link href={content?.banner_link_url_sec41} className="site_btn ">
+              {content?.banner_link_text_sec41}
               </Link>
             </div>
         </section>

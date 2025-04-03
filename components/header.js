@@ -47,22 +47,22 @@ export default function Header(siteSettings) {
               </ul>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/course" onClick={ToggleAction}>
                 The Course
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/accomodation" onClick={ToggleAction}>
                 The Chalets
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/corporate-retreats" onClick={ToggleAction}>
                 Corporate & Events
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/Memberships" onClick={ToggleAction}>
                 Memberships
               </Link>
             </li>
@@ -71,12 +71,12 @@ export default function Header(siteSettings) {
         <div className="login_btns">
           <ul>
             <li>
-              <Link href="/" className="site_btn md color">
+              <Link href="/booking-request" className="site_btn md color">
                 Book a Chalet
               </Link>
             </li>
             <li>
-              <Link href="/" className="site_btn blank md">
+              <Link href="/booking-request" className="site_btn blank md">
                 Book a Tee Time
               </Link>
             </li>

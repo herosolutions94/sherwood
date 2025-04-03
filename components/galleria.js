@@ -5,7 +5,7 @@ import "lightgallery/css/lg-zoom.css";
 import lightGallery from "lightgallery";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
-
+import { cmsFileUrl } from "@/helpers/helpers";
 const images = [
   "/images/g1.png",
   "/images/g2.png",
@@ -14,7 +14,7 @@ const images = [
   "/images/g5.jpg",
 ];
 
-const Galleria = () => {
+const Galleria = ({content}) => {
   const galleryRef = useRef(null);
 
   useEffect(() => {
@@ -28,16 +28,23 @@ const Galleria = () => {
   }, []);
 
   return (
+    
+    
     <div ref={galleryRef} className="gallery-grid flex flex-wrap galleria">
-      {images.map((src, index) => (
-        <a href={src} key={index} data-src={src} className="col gallery-item">
+       {Array.from({ length: 9 }, (_, i) => {
+        
+
+        return (
+          <a href={cmsFileUrl(content?.[`image${i + 4}`])}  key={i} data-src={cmsFileUrl(content?.[`image${i + 4}`])}  className="col gallery-item">
           <div className="inner">
             <div className="image">
-              <img src={src} alt={`Gallery Image ${index + 1}`} />
+              <img src={cmsFileUrl(content?.[`image${i + 4}`])}  alt={`Gallery Image ${i + 1}`} />
             </div>
           </div>
         </a>
-      ))}
+        );
+      })}
+   
     </div>
   );
 };
