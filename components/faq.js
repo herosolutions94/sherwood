@@ -1,25 +1,9 @@
 import { useState } from "react";
+import Text from "@/components/text";
 
-const faqs = [
-  {
-    question: "How To Purchase The Tickets For Groups?",
-    answer: "Really boy law county she unable her sister. Feet you off its like like six. Among sex are leave law built now. In built table in an rapid blush. Merits behind on afraid or warmly.",
-  },
-  {
-    question: "What Equipment Do I Need For Golfing?",
-    answer: "You will need golf clubs, golf balls, a golf bag, and appropriate attire including gloves and shoes.",
-  },
-  {
-    question: "Does Practicing Golf At Home Actually Work?",
-    answer: "Yes! Practicing putting, swing mechanics, and drills at home can significantly improve your game.",
-  },
-  {
-    question: "How To Purchase The Tickets For Groups?",
-    answer: "Yes! Practicing putting, swing mechanics, and drills at home can significantly improve your game.",
-  },
-];
 
-export default function FaqSection() {
+
+export default function FaqSection({faqs}) {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFaq = (index) => {
@@ -47,7 +31,7 @@ export default function FaqSection() {
             </span>
             <h3>{faq.question}</h3>
           </div>
-          <div className="faq-answer">{openIndex === index && <p>{faq.answer}</p>}</div>
+          <div className="faq-answer">{openIndex === index && <Text string={faq.answer}/>}</div>
         </div>
         </div>
       ))}

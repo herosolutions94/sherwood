@@ -19,7 +19,8 @@ export const getServerSideProps = async (context) => {
 
 
 export default function Proshop({result}) {
-  const { content, page_title, site_settings } = result;
+  const { content, page_title, site_settings , faqs} = result;
+  console.log(faqs);
 
   return (
     <>
@@ -148,7 +149,7 @@ export default function Proshop({result}) {
             <div className="content_center">
             <h2>{content?.section5_heading}</h2>
             </div>
-            <FAQ />
+            <FAQ faqs={faqs}/>
           </div>
         </section>
       </main>
