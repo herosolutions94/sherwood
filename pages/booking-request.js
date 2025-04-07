@@ -8,6 +8,7 @@ import MetaGenerator from "@/components/meta-generator";
 
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader"; 
 
 export const getServerSideProps = async (context) => {
   const result = await http
@@ -480,14 +481,20 @@ export default function Request({ result }) {
                   className="site_btn"
                   disabled={isProcessing}
                 >
-                  {isProcessing ? "Submitting..." : "Submit Inquiry"}
+                    {isProcessing ? (
+                      <ClipLoader color="#fff" loading={isProcessing} size={20} />
+                    ) : (
+                      "Submit Inquiry"
+                    )}
+
+                  <ToastContainer />
+
                 </button>
               </form>
             </div>
           </div>
         </section>
       </main>
-      <ToastContainer />
 
     </>
   );

@@ -16,7 +16,7 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Membership({result}) {
-const { content, page_title, site_settings } = result;
+const { content, page_title, site_settings , packages} = result;
 
   return (
     <>
@@ -85,31 +85,20 @@ const { content, page_title, site_settings } = result;
               <h2>{content?.section3_heading}</h2>
             </div>
             <div className="hexagon-container">
-              <div className="hexagon">
-                <div className="label">Platinum</div>
-                <p>Unlimited Golf Cart (Annual Fee: $1,600)</p>
-                <div className="footer">Annual Fee</div>
-              </div>
-              <div className="hexagon">
-                <div className="label">Platinum</div>
-                <p>Unlimited Golf Cart (Annual Fee: $1,600)</p>
-                <div className="footer">Annual Fee</div>
-              </div>
-              <div className="hexagon">
-                <div className="label">Platinum</div>
-                <p>Unlimited Golf Cart (Annual Fee: $1,600)</p>
-                <div className="footer">Annual Fee</div>
-              </div>
-              <div className="hexagon">
-                <div className="label">Platinum</div>
-                <p>Unlimited Golf Cart (Annual Fee: $1,600)</p>
-                <div className="footer">Annual Fee</div>
-              </div>
-              <div className="hexagon">
-                <div className="label">Platinum</div>
-                <p>Unlimited Golf Cart (Annual Fee: $1,600)</p>
-                <div className="footer">Annual Fee</div>
-              </div>
+              {packages.length > 0 ? (
+                              packages.map((pkg) => (
+                                <div className="hexagon" key={pkg.id}>
+                                <div className="label">{pkg.type}</div>
+                                <p>{pkg.title}</p>
+                                <div className="footer">{pkg.fee_duration}</div>
+                              </div>
+                               
+                              ))
+                            ) : (
+                              <p>No packages available </p>
+                            )}
+             
+              
             </div>
             <div className="btn_blk">
             <Link href={content?.banner_link_url_sec41} className="site_btn">
