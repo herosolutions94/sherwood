@@ -62,7 +62,7 @@ export default function Header(siteSettings) {
               </Link>
             </li>
             <li>
-              <Link href="/Memberships" onClick={ToggleAction}>
+              <Link href="/memberships" onClick={ToggleAction}>
                 Memberships
               </Link>
             </li>

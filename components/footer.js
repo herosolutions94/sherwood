@@ -146,7 +146,7 @@ export default function Footer( siteSettings ) {
               {siteSettings.siteSettings.site_copyright}              </p>
               <ul className="footer_nav">
               <li><Link href="/">Home</Link></li>
-              <li><Link href="/Memberships">Memberships</Link></li>
+              <li><Link href="/memberships">Memberships</Link></li>
               <li><Link href="/corporate-retreats">Events</Link></li>
               <li><Link href="/reviews">Reviews</Link></li>
               <li><Link href="/about">About</Link></li>

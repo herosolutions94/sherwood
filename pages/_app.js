@@ -6,18 +6,24 @@ import '../styles/custom.scss'
 import Layout from '../components/layout'
 import http from '@/helpers/http';
 import { doObjToFormData } from '@/helpers/helpers';
+import NextNProgress from 'nextjs-progressbar';
+
 
 
 export default function App({ Component, pageProps , siteSettings }) {
 
-console.log("jg[ps[" , siteSettings);
   const renderWithLayout =
     Component.getLayout ||
     function (page) {
       return <Layout siteSettings={siteSettings}>{page}</Layout>;
     };
 
-  return renderWithLayout(<Component {...pageProps} />);
+  return renderWithLayout(
+    <>
+    <NextNProgress color="#C69E66" />
+    <Component {...pageProps} />
+  </>
+);
   
 }
 
