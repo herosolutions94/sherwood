@@ -5,6 +5,8 @@ import http from "@/helpers/http";
 import { cmsFileUrl } from "@/helpers/helpers";
 import Text from "@/components/text";
 import MetaGenerator from "@/components/meta-generator";
+import { blogDate } from "@/helpers/helpers";
+
 
 export const getServerSideProps = async (context) => {
   const result = await http
@@ -16,7 +18,7 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Tournament({result}) {
-   const { content, page_title, site_settings  } = result;
+   const { content, page_title, site_settings , events  } = result;
   
     return (
       <>
@@ -49,99 +51,40 @@ export default function Tournament({result}) {
                 </div>
               </div>
               <div className="col2">
-                <div className="block">
-                  <div className="inner">
-                    <div className="text">
-                      <h4>Event 1</h4>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Ut elit tellus, luctus nec ullamcorper mattis
-                      </p>
-                      <span>To participate contact us at</span>
-                      <Link href="/" className="">
-                        info@sherwoodgolf.com
-                      </Link>
-                    </div>
-                    <div className="blc_inn">
-                      <ul>
-                        <li>
-                          <img src="/images/clock.svg" />
-                          August 26, 202
-                        </li>
-                        <li>
-                          <img src="/images/loc.svg" />
-                          09:00 - 17:00
-                        </li>
-                        <li>
-                          <img src="/images/cal.svg" />
-                          Royal Golf
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="block">
-                  <div className="inner">
-                    <div className="text">
-                      <h4>Event 1</h4>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Ut elit tellus, luctus nec ullamcorper mattis
-                      </p>
-                      <span>To participate contact us at</span>
-                      <Link href="/" className="">
-                        info@sherwoodgolf.com
-                      </Link>
-                    </div>
-                    <div className="blc_inn">
-                      <ul>
-                        <li>
-                          <img src="/images/clock.svg" />
-                          August 26, 202
-                        </li>
-                        <li>
-                          <img src="/images/loc.svg" />
-                          09:00 - 17:00
-                        </li>
-                        <li>
-                          <img src="/images/cal.svg" />
-                          Royal Golf
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="block">
-                  <div className="inner">
-                    <div className="text">
-                      <h4>Event 1</h4>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Ut elit tellus, luctus nec ullamcorper mattis
-                      </p>
-                      <span>To participate contact us at</span>
-                      <Link href="/" className="">
-                        info@sherwoodgolf.com
-                      </Link>
-                    </div>
-                    <div className="blc_inn">
-                      <ul>
-                        <li>
-                          <img src="/images/clock.svg" />
-                          August 26, 202
-                        </li>
-                        <li>
-                          <img src="/images/loc.svg" />
-                          09:00 - 17:00
-                        </li>
-                        <li>
-                          <img src="/images/cal.svg" />
-                          Royal Golf
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                 {events.length > 0 ? (
+                                events.map((event) => (
+                                  <div className="block" key={event.id}>
+                                  <div className="inner">
+                                    <div className="text">
+                                      <h4>{event.title}</h4>
+                                      <Text string={event.detail} />
+                                     
+                                    </div>
+                                    <div className="blc_inn">
+                                      <ul>
+                                        <li>
+                                          <img src="/images/clock.svg" />
+                                         {blogDate(event.blog_date)}
+                                        </li>
+                                        <li>
+                                          <img src="/images/loc.svg" />
+                                          {event.s_time} - {event.e_time}
+                                        </li>
+                                        <li>
+                                          <img src="/images/cal.svg" />
+                                          {event.location}
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                ))
+                              ) : (
+                                <p>No event available</p>
+                              )}
+               
+               
               </div>
             </div>
           </div>

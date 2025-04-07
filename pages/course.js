@@ -17,7 +17,7 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Course({result}) {
-  const { content, page_title, site_settings  } = result;
+  const { content, page_title, site_settings , courses } = result;
  
    return (
      <>
@@ -129,27 +129,27 @@ export default function Course({result}) {
 
         <section id="membership_benefit">
           <div className="contain">
-            <div className="content_center">
-              <h2>#1 Hidden Gem Golf Course in Canada</h2>
-              <p>
-                Nestled in a breathtaking natural landscape, this hidden gem is
-                Canada’s best-kept golfing secret. Designed for both challenge
-                and enjoyment, the course offers immaculately maintained
-                fairways, rolling greens, and stunning scenery at every turn.
-                Whether you're a seasoned golfer or a weekend enthusiast, the
-                serene atmosphere and world-class course design provide an
-                unforgettable experience. With top-tier facilities, a welcoming
-                clubhouse, and an uncrowded, exclusive feel, this course stands
-                out as a true golfer’s paradise. Discover why it's ranked #1 in
-                Canada and experience golf at its finest.
-              </p>
-        
-            </div>
+
+                      {courses.length > 0 ? (
+                                            courses.map((course) => (
+                                              <div className="content_center" key={course.id}>
+                                                <h2>{course.title}</h2>
+                                                  <Text string={course.detail} />
+                                                 
+                                        
+                                            </div>
+                                      
+                                        
+                                            ))
+                                          ) : (
+                                            <p>No event available</p>
+                                          )}
+         
             <div className="btn_blk">
-                  <Link href="/" className="site_btn ">
+                  <Link href="/green-fee-rates" className="site_btn ">
                   Green Fee Rate
                   </Link>
-                  <Link href="/" className="site_btn ">
+                  <Link href="/booking-request" className="site_btn ">
                   Book a Tee Time
                   </Link>
                   <Link href="/" className="site_btn ">
