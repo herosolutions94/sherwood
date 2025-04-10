@@ -466,11 +466,20 @@ export default function Request({ result }) {
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label className="checkbox-group">
-                    <input type="checkbox" {...register("consent")} />I agree to
-                    receive other communications
-                  </label>
-                </div>
+  <label className="checkbox-group">
+    <input
+      type="checkbox"
+      {...register("consent", {
+        required: "You must agree before submitting",
+      })}
+    />
+    I agree to receive other communications
+  </label>
+
+  {errors.consent && (
+    <p className="error">{errors.consent.message}</p>
+  )}
+</div>
 
                 <div className="form-blk col-xs-12">
                   <Text string={content?.sec2_heading} />
