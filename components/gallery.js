@@ -68,14 +68,26 @@ const Gallery = ({ gallery }) => {
   const galleryRef = useRef(null);
 
   useEffect(() => {
-    if (galleryRef.current) {
-      lightGallery(galleryRef.current, {
-        plugins: [lgThumbnail, lgZoom],
-        speed: 500,
-        selector: ".gallery-item",
-      });
-    }
+    let galleryInstance;
+  
+    const timeout = setTimeout(() => {
+      if (galleryRef.current) {
+        galleryInstance = lightGallery(galleryRef.current, {
+          plugins: [lgThumbnail, lgZoom],
+          speed: 500,
+          selector: ".gallery-item",
+        });
+      }
+    }, 100); 
+  
+    return () => {
+      clearTimeout(timeout);
+      if (galleryInstance) {
+        galleryInstance.destroy();
+      }
+    };
   }, []);
+  
 
   if (!gallery || gallery.length === 0) {
     return <p className="text-center text-gray-500">No images available.</p>;
