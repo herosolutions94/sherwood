@@ -15,7 +15,6 @@ p {
 
 #banner {
   @include bg;
-  background-image: url(../public/images/banner.png);
   height: 700px;
   position: relative;
   display: flex;
@@ -30,7 +29,7 @@ p {
     background-color: #000000;
     opacity: 60%;
   }
-
+ 
   .content {
     h1 {
       color: $white;
@@ -2306,3 +2305,12 @@ width: 100%;
 .slick-dots li button:before{
   font-size: 12px !important;
 }
+/* Error Message Styling */
+.error {
+  color: #e74c3c; 
+  font-size: 14px; 
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-weight: bold; 
+}
+

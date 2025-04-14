@@ -1,137 +1,259 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { doObjToFormData } from "@/helpers/helpers";
+import http from "@/helpers/http";
+import { cmsFileUrl } from "@/helpers/helpers";
+import Text from "@/components/text";
+import MetaGenerator from "@/components/meta-generator";
 
-export default function Request() {
+import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader"; 
+
+export const getServerSideProps = async (context) => {
+  const result = await http
+    .post("booking-requests", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Request({ result }) {
+  const { content, page_title, site_settings } = result;
+  const [isProcessing, setProcessingTo] = useState(false);
+  const {
+    register,
+    watch,
+    formState: { errors, isValid },
+    handleSubmit,
+    setValue,
+    reset,
+  } = useForm();
+
+  const onSubmit = async (frmData) => {
+    setProcessingTo(true);
+    const response = await http
+      .post(
+        "/save-booking-request",
+        doObjToFormData({
+          ...frmData,
+          services: JSON.stringify(frmData?.services),
+        })
+      )
+      .then((response) => response.data)
+      .catch((error) => error);
+    setProcessingTo(false);
+    if (response?.status) {
+      toast.success(response?.msg);
+      setTimeout(() => {
+        reset();
+      }, 2000);
+    } else {
+      toast.error(response?.msg);
+    }
+  };
+
   return (
     <>
+      <MetaGenerator
+        page_title={page_title + " - " + site_settings?.site_name}
+        site_settings={site_settings}
+        meta_info={content}
+      />
+
       <main>
-        <section id="smallbanner">
+        <section
+          id="smallbanner"
+          style={{ backgroundImage: `url(${cmsFileUrl(content?.image1)})` }}
+        >
           <div className="contain">
-            <h1>Booking Requests</h1>
+            <h1>{content?.overview_heading}</h1>
           </div>
         </section>
 
         <section id="request-form">
           <div className="contain">
             <div className="content_center">
-              <h2>Booking Request Form</h2>
-              <p>
-                Experience luxury and comfort with our beautifully designed
-                chalets, offering a perfect retreat for golf enthusiasts and
-                nature lovers alike. Nestled amidst scenic landscapes, our
-                accommodations provide a relaxing escape with modern amenities.
-              </p>
+              <h2>{content?.sec1_heading}</h2>
+              <Text string={content?.section2_text} />
             </div>
             <div className="outer">
-              <form className="booking-form">
+              <form className="booking-form" onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-blk col-xs-12">
                   <label>What are you looking to do?</label>
                   <div className="radio-group">
                     <label>
                       <input
                         type="radio"
-                        name="lookingToDo"
-                        className="input"
-                      />{" "}
+                        value="Stay Only"
+                        {...register("lookingToDo", {
+                          required: "Please select an option",
+                        })}
+                      />
                       Stay Only
                     </label>
                     <label>
                       <input
                         type="radio"
-                        name="lookingToDo"
-                        className="input"
-                      />{" "}
+                        value="Stay & Play"
+                        {...register("lookingToDo")}
+                      />
                       Stay & Play
                     </label>
                   </div>
+                  {errors.lookingToDo && (
+                    <p className="error">{errors.lookingToDo.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-6">
                   <label>First Name</label>
                   <input
-                    type="text"
-                    name="firstName"
                     className="input"
-                    required
+                    {...register("firstName", {
+                      required: "First name is required",
+                      pattern: {
+                        value: /^[a-zA-Z\s]+$/,
+                        message: "Only letters and spaces allowed",
+                      },
+                    })}
                   />
+                  {errors.firstName && (
+                    <p className="error">{errors.firstName.message}</p>
+                  )}
                 </div>
+
                 <div className="form-blk col-xs-6">
                   <label>Last Name</label>
                   <input
-                    type="text"
-                    name="lastName"
                     className="input"
-                    required
+                    {...register("lastName", {
+                      required: "Last name is required",
+                      pattern: {
+                        value: /^[a-zA-Z\s]+$/,
+                        message: "Only letters and spaces allowed",
+                      },
+                    })}
                   />
+                  {errors.lastName && (
+                    <p className="error">{errors.lastName.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-6">
                   <label>Email</label>
-                  <input type="email" name="email" className="input" required />
+                  <input
+                    type="email"
+                    className="input"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Invalid email address",
+                      },
+                    })}
+                  />
+                  {errors.email && (
+                    <p className="error">{errors.email.message}</p>
+                  )}
                 </div>
+
                 <div className="form-blk col-xs-6">
                   <label>Phone Number</label>
                   <input
                     type="text"
-                    name="phoneNumber"
                     className="input"
-                    required
+                    {...register("phoneNumber", {
+                      required: "Phone number is required",
+                      pattern: {
+                        value: /^[0-9\s\-+()]+$/,
+                        message: "Invalid phone number",
+                      },
+                    })}
                   />
+                  {errors.phoneNumber && (
+                    <p className="error">{errors.phoneNumber.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-6">
                   <label>Postal Code</label>
                   <input
                     type="text"
-                    name="postalCode"
                     className="input"
-                    required
+                    {...register("postalCode", {
+                      required: "Postal Code is required",
+                    })}
                   />
+                  {errors.postalCode && (
+                    <p className="error">{errors.postalCode.message}</p>
+                  )}
                 </div>
+
                 <div className="form-blk col-xs-6">
                   <label>State/Province</label>
                   <input
                     type="text"
-                    name="stateProvince"
                     className="input"
-                    required
+                    {...register("stateProvince", {
+                      required: "State/Province is required",
+                    })}
                   />
+                  {errors.stateProvince && (
+                    <p className="error">{errors.stateProvince.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
                   <label>How would you like us to contact you?</label>
-                  <select name="contactMethod" className="input">
-                    <option>Please Select</option>
+                  <select
+                    className="input"
+                    {...register("contactMethod", {
+                      required: "Please select a contact method",
+                    })}
+                  >
+                    <option value="">Please Select</option>
+                    <option>Email</option>
+                    <option>Phone</option>
                   </select>
+                  {errors.contactMethod && (
+                    <p className="error">{errors.contactMethod.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-6">
                   <label>Arrival Date</label>
                   <input
                     type="date"
-                    name="arrivalDate"
                     className="input"
-                    required
+                    {...register("arrivalDate", {
+                      required: "Arrival date is required",
+                    })}
                   />
+                  {errors.arrivalDate && (
+                    <p className="error">{errors.arrivalDate.message}</p>
+                  )}
                 </div>
+
                 <div className="form-blk col-xs-6">
                   <label>Departure Date</label>
                   <input
                     type="date"
-                    name="departureDate"
                     className="input"
-                    required
+                    {...register("departureDate", {
+                      required: "Departure date is required",
+                    })}
                   />
+                  {errors.departureDate && (
+                    <p className="error">{errors.departureDate.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label className="checkbox-group ">
-                    <input
-                      type="checkbox"
-                      name="flexibleDates"
-                      className="input"
-                    />{" "}
-                    My dates are flexible
+                  <label className="checkbox-group">
+                    <input type="checkbox" {...register("flexibleDates")} /> My
+                    dates are flexible
                   </label>
                 </div>
 
@@ -139,10 +261,15 @@ export default function Request() {
                   <label># of Guests</label>
                   <input
                     type="number"
-                    name="guests"
                     className="input"
-                    required
+                    {...register("guests", {
+                      required: "Number of guests is required",
+                      min: 1,
+                    })}
                   />
+                  {errors.guests && (
+                    <p className="error">{errors.guests.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
@@ -153,30 +280,40 @@ export default function Request() {
                     <label>
                       <input
                         type="radio"
-                        name="airportPickup"
-                        className="input"
+                        value="Yes"
+                        {...register("airportPickup", {
+                          required: "Please choose one",
+                        })}
                       />{" "}
                       Yes
                     </label>
                     <label>
                       <input
                         type="radio"
-                        name="airportPickup"
-                        className="input"
+                        value="No"
+                        {...register("airportPickup")}
                       />{" "}
                       No
                     </label>
                   </div>
+                  {errors.airportPickup && (
+                    <p className="error">{errors.airportPickup.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
                   <label>Number of Rooms Required</label>
                   <input
                     type="number"
-                    name="rooms"
                     className="input"
-                    required
+                    {...register("rooms", {
+                      required: "Number of rooms is required",
+                      min: 1,
+                    })}
                   />
+                  {errors.rooms && (
+                    <p className="error">{errors.rooms.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
@@ -184,62 +321,58 @@ export default function Request() {
                   <a href="#" className="link">
                     Accommodation Rates and Cancellation Policy
                   </a>
-                  <div className="radio-group">
+                  <div className="radio-group ">
                     <div className="flex">
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Lodge - King Room
-                      </label>
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Lodge - Double Room
-                      </label>
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Home Type - 1 Bedroom
-                      </label>
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Home Type - 2 Bedroom
-                      </label>
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Home Type - 3 Bedroom
-                      </label>
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Home Type - 4 Bedroom
-                      </label>
-                      <label className="col-xs-4">
-                        <input type="radio" name="roomType" className="input" />{" "}
-                        Home Type - 5 Bedroom
-                      </label>
+                      {[
+                        "Lodge - King Room",
+                        "Lodge - Double Room",
+                        "Home Type - 1 Bedroom",
+                        "Home Type - 2 Bedroom",
+                        "Home Type - 3 Bedroom",
+                        "Home Type - 4 Bedroom",
+                        "Home Type - 5 Bedroom",
+                      ].map((type, i) => (
+                        <label key={i} className="col-xs-4">
+                          <input
+                            type="radio"
+                            className="input"
+                            value={type}
+                            {...register("roomType", {
+                              required: "Please select a room type",
+                            })}
+                          />
+                          {type}
+                        </label>
+                      ))}
                     </div>
                   </div>
+                  {errors.roomType && (
+                    <p className="error">{errors.roomType.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label>
-                    Anything else we should know about your accommodation
-                    preferences?
-                  </label>
+                  <label>Accommodation Preferences</label>
                   <p>(e.g. specific details, special requirements)</p>
                   <textarea
-                    name="accommodationPreferences"
                     className="input"
-                  ></textarea>
+                    {...register("accommodationPreferences")}
+                  />
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label>
-                    How many rounds would you like to play during your stay?
-                  </label>
+                  <label>Rounds of Golf</label>
                   <input
                     type="number"
-                    name="rounds"
                     className="input"
-                    required
+                    {...register("rounds", {
+                      required: "Please enter number of rounds",
+                      min: 0,
+                    })}
                   />
+                  {errors.rounds && (
+                    <p className="error">{errors.rounds.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
@@ -249,114 +382,129 @@ export default function Request() {
                     Golf Rates
                   </a>
                   <div className="checkbox-group">
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="courses"
-                        value="Cabot Links"
-                        className="input"
-                      />{" "}
-                      Cabot Links
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="courses"
-                        value="Cabot Cliffs"
-                        className="input"
-                      />{" "}
-                      Cabot Cliffs
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="courses"
-                        value="The Nest"
-                        className="input"
-                      />{" "}
-                      The Nest
-                    </label>
+                    {["Cabot Links", "Cabot Cliffs", "The Nest"].map(
+                      (course, i) => (
+                        <label key={i}>
+                          <input
+                            type="checkbox"
+                            value={course}
+                            {...register("courses")}
+                          />{" "}
+                          {course}
+                        </label>
+                      )
+                    )}
                   </div>
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label>When would you like to golf?</label>
+                  <label>Preferred Golf Time</label>
                   <div className="radio-group">
-                    <label>
-                      <input type="radio" name="golfTime" className="input" />{" "}
-                      Anytime
-                    </label>
-                    <label>
-                      <input type="radio" name="golfTime" className="input" />{" "}
-                      Morning
-                    </label>
-                    <label>
-                      <input type="radio" name="golfTime" className="input" />{" "}
-                      Afternoon
-                    </label>
-                    <label>
-                      <input type="radio" name="golfTime" className="input" />{" "}
-                      Twilight
-                    </label>
+                    {["Anytime", "Morning", "Afternoon", "Twilight"].map(
+                      (time, i) => (
+                        <label key={i}>
+                          <input
+                            type="radio"
+                            value={time}
+                            {...register("golfTime", {
+                              required: "Please select one",
+                            })}
+                          />
+                          {time}
+                        </label>
+                      )
+                    )}
                   </div>
+                  {errors.golfTime && (
+                    <p className="error">{errors.golfTime.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label>
-                    Anything else we should know about your tee time
-                    preferences?
-                  </label>
-                  <p>
-                    (e.g. specific details about tee times, special
-                    requirements)
-                  </p>
-                  <input type="text" name="" className="input" />
+                  <label>Tee Time Preferences</label>
+                  <p>(e.g. specific tee time requirements)</p>
+                  <input
+                    type="text"
+                    className="input"
+                    {...register("teeTimePreferences")}
+                  />
                 </div>
 
                 <div className="form-blk col-xs-12">
                   <label>How did you hear about us?</label>
-                  <select name="hearAboutUs" className="input">
-                    <option>Please Select</option>
+                  <select
+                    className="input"
+                    {...register("hearAboutUs", {
+                      required: "Please select one",
+                    })}
+                  >
+                    <option value="">Please Select</option>
+                    <option>Google</option>
+                    <option>Friend/Referral</option>
+                    <option>Instagram</option>
+                    <option>Facebook</option>
                   </select>
+                  {errors.hearAboutUs && (
+                    <p className="error">{errors.hearAboutUs.message}</p>
+                  )}
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label>Are you celebrating a special occasion?</label>
-                  <input type="text" name="specialOccasion" className="input" />
+                  <label>Special Occasion</label>
+                  <input
+                    type="text"
+                    className="input"
+                    {...register("specialOccasion")}
+                  />
                 </div>
 
-                <div className=" col-xs-12">
-                <p>
-                  Sherwood Golf & Country Club is committed to protecting and
-                  respecting your privacy. From time to time, we would like to
-                  contact you about our products and services, as well as other
-                  content that may be of interest to you. If you consent to us
-                  contacting you for this purpose, please tick below:
-                </p>
+                <div className="col-xs-12">
+                  <p>
+                    Sherwood Golf & Country Club is committed to protecting and
+                    respecting your privacy...
+                  </p>
                 </div>
 
                 <div className="form-blk col-xs-12">
-                  <label className="checkbox-group">
-                    <input type="checkbox" name="consent" className="input" /> I
-                    agree to receive other communications from Sherwood Golf &
-                    Country Club
-                  </label>
+  <label className="checkbox-group">
+    <input
+      type="checkbox"
+      {...register("consent", {
+        required: "You must agree before submitting",
+      })}
+    />
+    I agree to receive other communications
+  </label>
+
+  {errors.consent && (
+    <p className="error">{errors.consent.message}</p>
+  )}
+</div>
+
+                <div className="form-blk col-xs-12">
+                  <Text string={content?.sec2_heading} />
                 </div>
 
-                <div className=" form-blk  col-xs-12">
-                <p>
-                I give my consent to receive electronic communications from Sherwood Golf & Country Club regarding upcoming communities, current communities, news, events, promotions and all other related electronic communications. I also understand that I can unsubscribe from receiving electronic communications from Sherwood Golf & Country Club at any time. For more information on how to unsubscribe, our privacy practices, and how we are committed to protecting and respecting your privacy, please review our Privacy Policy.
-                By clicking submit below, you consent to allow Sherwood Golf & Country Club to store and process the personal information submitted above to provide you the content requested.
-                </p>
-                </div>
-                <button type="submit" className="site_btn">
-                  Submit Inquiry
+                <button
+                  type="submit"
+                  className="site_btn"
+                  disabled={isProcessing}
+                >
+                    {isProcessing ? (
+                      <ClipLoader color="#fff" loading={isProcessing} size={20} />
+                    ) : (
+                      "Submit Inquiry"
+                    )}
+
+                  <ToastContainer />
+
                 </button>
               </form>
             </div>
           </div>
         </section>
       </main>
+
     </>
   );
 }

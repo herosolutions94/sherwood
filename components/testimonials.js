@@ -1,7 +1,8 @@
 import React from "react";
-import Link from "next/link";
 import Slider from "react-slick";
-export default function Testimonials() {
+import Text from "@/components/text";
+
+export default function Testimonials({ testimonials }) {
   const settings = {
     dots: false,
     infinite: true,
@@ -53,65 +54,26 @@ export default function Testimonials() {
       },
     ],
   };
+
   return (
-    <>
-      <Slider {...settings}>
-            <div className="item">
-              <div className="inner">
-                <p>
-                  “Beyond the course, including a well-appointed clubhouse that
-                  serves as a warm and inviting hub for members and guests
-                  alike.”
-                </p>
-                <div className="profile">
-                  <div className="image">
-                    <img src="/images/dp1.png" />
-                  </div>
-                  <div className="text">
-                  <h5>Jack Albert</h5>
-                  <h6>- Team Trainer</h6>
-                  </div>
+    <Slider {...settings}>
+      {testimonials && testimonials.length > 0 ? (
+        testimonials.map((testimonial, index) => (
+          <div className="item" key={index}>
+            <div className="inner">
+              <Text string={testimonial.message} />
+              <div className="profile">
+                <div className="text">
+                  <h5>{testimonial.name}</h5>
+                  <h6>{testimonial.post}</h6>
                 </div>
               </div>
             </div>
-            <div className="item">
-              <div className="inner">
-                <p>
-                  “Beyond the course, including a well-appointed clubhouse that
-                  serves as a warm and inviting hub for members and guests
-                  alike.”
-                </p>
-                <div className="profile">
-                  <div className="image">
-                    <img src="/images/dp1.png" />
-                  </div>
-                  <div className="text">
-                  <h5>Jack Albert</h5>
-                  <h6>- Team Trainer</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="item">
-              <div className="inner">
-                <p>
-                  “Beyond the course, including a well-appointed clubhouse that
-                  serves as a warm and inviting hub for members and guests
-                  alike.”
-                </p>
-                <div className="profile">
-                  <div className="image">
-                    <img src="/images/dp1.png" />
-                  </div>
-                  <div className="text">
-                  <h5>Jack Albert</h5>
-                  <h6>- Team Trainer</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-   
-      </Slider>
-    </>
+          </div>
+        ))
+      ) : (
+        <p>No testimonials available</p>
+      )}
+    </Slider>
   );
 }

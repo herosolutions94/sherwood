@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { cmsFileUrl } from "@/helpers/helpers";
 
-export default function Header() {
+
+export default function Header(siteSettings) {
   const [toggle, setToggle] = useState(false);
   const ToggleAction = () => {
     setToggle(!toggle);
@@ -11,12 +13,13 @@ export default function Header() {
   const ToggleUserDrop = () => {
     setUserDrop(!userDrop);
   };
+
   return (
     <header>
       <div className="contain">
         <div className="logo">
           <Link href="/">
-            <img src="/images/logo.svg" alt="" />
+            <img src={cmsFileUrl(siteSettings.siteSettings.site_logo, 'images')} alt={siteSettings.siteSettings.site_name} />
           </Link>
         </div>
         <div
@@ -36,30 +39,30 @@ export default function Header() {
                   <Link href="/about">About Us</Link>
                 </li>
                 <li>
-                  <Link href="/">Proshop & Boutique</Link>
+                  <Link href="/proshop">Proshop & Boutique</Link>
                 </li>
                 <li>
-                  <Link href="/">Partnerships</Link>
+                  <Link href="/partnerships">Partnerships</Link>
                 </li>
               </ul>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/course" onClick={ToggleAction}>
                 The Course
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/accomodation" onClick={ToggleAction}>
                 The Chalets
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/corporate-retreats" onClick={ToggleAction}>
                 Corporate & Events
               </Link>
             </li>
             <li>
-              <Link href="/" onClick={ToggleAction}>
+              <Link href="/memberships" onClick={ToggleAction}>
                 Memberships
               </Link>
             </li>
@@ -68,12 +71,12 @@ export default function Header() {
         <div className="login_btns">
           <ul>
             <li>
-              <Link href="/" className="site_btn md color">
+              <Link href="/booking-request" className="site_btn md color">
                 Book a Chalet
               </Link>
             </li>
             <li>
-              <Link href="/" className="site_btn blank md">
+              <Link href="/booking-request" className="site_btn blank md">
                 Book a Tee Time
               </Link>
             </li>
